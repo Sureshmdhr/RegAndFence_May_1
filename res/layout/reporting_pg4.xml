@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@layout/header_gradient"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:text="Summary"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/whiteflat"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/report_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearlayout1"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/header"
+        android:layout_margin="5dp"
+        android:divider="@color/list_divider"
+        android:dividerHeight="2dp" >
+    </ListView>
+
+    <LinearLayout
+        android:id="@+id/linearlayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/add_report"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@color/background"
+            android:text="+"
+            android:textColor="@color/whiteflat"
+            android:textSize="40sp" />
+
+        <Button
+            android:id="@+id/delete_all"
+            style="android:buttonStyle "
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@color/background"
+            android:text=" Upload All"
+            android:textColor="@color/whiteflat"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

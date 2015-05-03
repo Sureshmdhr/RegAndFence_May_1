@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <!-- Header  Starts -->
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@layout/header_gradient"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Update Geofence"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <!-- Header Ends -->
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header"
+        android:background="@layout/background"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/geofence_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose Geofence to update"
+            android:textSize="20sp" />
+        
+                <LinearLayout
+                    android:id="@+id/linearLayout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <TabHost  android:layout_width="fill_parent"
+						         android:layout_height="fill_parent"
+						          android:id="@android:id/tabhost">
+					         
+					        <LinearLayout 
+					                android:id="@+id/LinearLayout01"
+					                android:orientation="vertical" 
+					                android:layout_height="fill_parent"
+					                android:layout_width="fill_parent">
+					                
+					                <TabWidget
+					                    android:id="@android:id/tabs"
+					                    android:layout_width="fill_parent"
+					                    android:layout_height="30dp"
+					                    android:background="@color/background" >
+
+					                </TabWidget>
+					                
+					                <FrameLayout
+					                    android:id="@android:id/tabcontent"
+					                    android:layout_width="fill_parent"
+					                    android:layout_height="match_parent" >
+
+					                </FrameLayout>
+					                
+					        </LinearLayout>
+					
+					</TabHost>
+                </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

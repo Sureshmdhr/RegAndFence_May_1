@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="redflat">#e74c3c</color>
+    <color name="redflatdark">#c0392b</color>
+    <color name="green">#3e9833</color>
+    <color name="greendark">#27ae60</color>
+    <color name="textcolour">#2c3e50</color>
+    <color name="edittextcolour">#2980b9</color>
+    <color name="buttontextcolour">#ecf0f1</color>
+    <color name="whiteflat">#ecf0f1</color>
+    <color name="orangeflat">#e67e22</color>
+	<color name="Transparent50">#CCCCCC</color>
+	<color name="Transparent">#999999</color>
+	<color name="flatgreydark">#7f8c8d</color>
+	<color name="flatgrey">#bdc3c7</color>
+	<color name="blue_black">#34495e</color>
+	<color name="blue_black_dark">#2c3e50</color>
+    <color name="list_item_title">#fff</color>
+    <color name="list_background">#303030</color>
+    <color name="list_background_pressed">#992416</color>
+    <color name="list_divider">#272727</color>
+    <color name="counter_text_bg">#626262</color>
+    <color name="counter_text_color">#c5c4c4</color>
+    <color name="background">#90725286</color>
+    <color name="menu_background">#725286</color>
+    <color name="light_blue">#C1D1FF</color>
+    <color name="button_colour">#2E6DA4</color>
+    <color name="button_pressed">#286090</color>
+</resources>

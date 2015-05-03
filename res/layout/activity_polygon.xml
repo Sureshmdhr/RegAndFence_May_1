@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@layout/background"
+    android:fillViewport="true" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="737dp"
+        android:background="@layout/background" >
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textview1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="Make Polygon for Geofence in Map Below"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="15sp" />
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="397dp"
+                android:layout_margin="5dp"
+                android:layout_marginTop="5dp" >
+
+                <com.suresh.extras.mymapview
+                    android:id="@+id/mapview1"
+                    android:layout_width="match_parent"
+                    android:layout_height="390dp" >
+                </com.suresh.extras.mymapview>
+
+                <Button
+                    android:id="@+id/clear_polygon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/mapview1"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/new_button"
+                    android:text="Clear"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name"
+            android:layout_marginTop="15dp"
+            android:text="Message"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="@dimen/text_size" />
+
+        <EditText
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView6"
+            android:layout_below="@+id/textView6"
+            android:layout_marginTop="5dp"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:textSize="@dimen/text_size" />
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView6"
+            android:layout_below="@+id/textView7"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:ems="10"
+            android:inputType="text"
+            android:textSize="@dimen/text_size" >
+
+            <requestFocus />
+        </EditText>
+
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/message"
+            android:layout_marginTop="15dp"
+            android:entries="@array/paths" />
+
+        <Button
+            android:id="@+id/create"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/spinner1"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/new_button"
+            android:text="Create Geofence"
+            android:textSize="@dimen/text_size" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/linearLayout1"
+            android:text="Name of Geofence"
+            android:textSize="@dimen/text_size" />
+
+    </RelativeLayout>
+
+</ScrollView>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@layout/header_gradient"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:text="Summary"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/whiteflat"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/report_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/header"
+        android:layout_margin="5dp"
+        android:divider="@color/list_divider"
+        android:dividerHeight="2dp" >
+
+    </ListView>
+
+    <LinearLayout
+        android:id="@+id/linearlayout1"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/header"
+        android:layout_alignRight="@+id/report_listview"
+        android:orientation="vertical" >
+
+        <ImageButton
+            android:id="@+id/delete_all"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@android:drawable/ic_menu_delete" />
+
+    </LinearLayout>
+
+</RelativeLayout>

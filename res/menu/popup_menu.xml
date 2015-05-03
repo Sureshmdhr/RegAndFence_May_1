@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/near1"
+        android:showAsAction="ifRoom|withText"
+        android:visible="true"/>
+    <item
+        android:id="@+id/near2"
+        android:showAsAction="ifRoom|withText"
+        android:visible="true"/>
+    <item
+        android:id="@+id/near3"
+        android:showAsAction="ifRoom|withText"
+        android:visible="true"/>
+    <item
+        android:id="@+id/near4"
+        android:showAsAction="ifRoom|withText"
+        android:visible="true"/>
+    <item
+        android:id="@+id/near5"
+        android:showAsAction="ifRoom|withText"
+        android:visible="true"/>
+</menu>

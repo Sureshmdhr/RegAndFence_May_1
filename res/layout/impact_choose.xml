@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical|center_horizontal"
+    android:background="@color/background" >
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="25dp"
+        android:text="Count"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/whiteflat"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tv1"
+        android:layout_marginLeft="35dp"
+        android:layout_toRightOf="@+id/tv1"
+        android:background="@color/whiteflat"
+        android:ems="10"
+        android:inputType="number"
+        android:paddingLeft="5dp"
+        android:textSize="15sp" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/noti_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tv1"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</RelativeLayout>

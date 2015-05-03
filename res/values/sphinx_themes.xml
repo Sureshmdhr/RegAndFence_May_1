@@ -1,0 +1,40 @@
+<?xml version= "1.0" encoding ="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<style name="Theme_Holo_Dialog_Alert" parent="@android:style/Theme.Holo.Light.Dialog">
+	<item name="android:windowBackground">@android:color/transparent</item>
+	<item name="android:windowContentOverlay">@null</item>
+	<item name="android:windowTitleStyle">@style/DialogWindowTitle_Holo</item>
+	<item name="android:windowMinWidthMajor">@android:dimen/dialog_min_width_major</item>
+	<item name="android:windowMinWidthMinor">@android:dimen/dialog_min_width_minor</item>
+</style>
+
+	<style name="Theme.Sphinx" parent="@android:style/Theme.Holo.Light">
+	<item name="android:actionBarStyle">@style/Widget.Sphinx.ActionBar.Solid</item>
+	<item name="android:alertDialogTheme">@style/Theme_Sphinx_Dialog_Alert</item>
+	<item name="android:alertDialogStyle">@style/AlertDialog_Sphinx</item>
+</style>
+
+<style name="Theme_Sphinx_Dialog_Alert" parent="@style/Theme_Holo_Dialog_Alert">
+	<item name="android:windowBackground">@android:color/transparent</item>
+	<item name="android:windowContentOverlay">@null</item>
+	<item name="android:windowIsFloating">true</item>
+	<item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+	<item name="android:windowMinWidthMajor">@android:dimen/dialog_min_width_major</item>
+	<item name="android:windowMinWidthMinor">@android:dimen/dialog_min_width_minor</item>
+	<item name="android:windowTitleStyle">@style/DialogWindowTitle.Sphinx</item>
+	<item name="android:textColorPrimary">@android:color/black</item>
+	<item name="android:textColorAlertDialogListItem">@android:color/black</item>
+	<item name="android:textAppearanceMedium">@style/TextAppearance.Sphinx.Medium</item>
+	<item name="android:textAppearanceLarge">@style/TextAppearance.Sphinx.DialogWindowTitle</item>
+	<item name="android:borderlessButtonStyle">@style/Widget.Sphinx.Button.Borderless.Small</item>
+	<item name="android:buttonBarStyle">@style/Sphinx.ButtonBar.AlertDialog</item>
+</style>
+
+<style name="DialogWindowTitle_Holo">
+	<item name="android:maxLines">1</item>
+	<item name="android:scrollHorizontally">true</item>
+	<item name="android:textAppearance">@android:style/TextAppearance.Holo.DialogWindowTitle</item>
+</style>
+
+</resources>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@layout/background"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/geofence_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:text="Choose the type of Geofence to receive notifications"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/geofence_title"
+        android:layout_margin="5dp"
+        android:orientation="vertical" >
+
+        <CheckBox
+            android:id="@+id/earthquake"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/geofence_title"
+            android:onClick="onCheckBoxClicked"
+            android:text="Earthquake" />
+
+        <CheckBox
+            android:id="@+id/landslide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/earthquake"
+            android:onClick="onCheckBoxClicked"
+            android:text="Landslide" />
+
+        <CheckBox
+            android:id="@+id/flood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/landslide"
+            android:onClick="onCheckBoxClicked"
+            android:text="Flood" />
+
+        <CheckBox
+            android:id="@+id/accident"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/flood"
+            android:onClick="onCheckBoxClicked"
+            android:text="Road Accident" />
+
+        <CheckBox
+            android:id="@+id/other"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/accident"
+            android:onClick="onCheckBoxClicked"
+            android:text="Other" />
+    </LinearLayout>
+    
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="14dp"
+        android:layout_marginLeft="16dp"
+        android:background="@drawable/new_button"
+        android:text="Cancel"
+        android:textColor="@color/whiteflat" />
+ 
+        <Button
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/cancel"
+            android:layout_alignBottom="@+id/cancel"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/new_button"
+            android:text="Save"
+            android:textColor="@color/whiteflat" />
+    
+</RelativeLayout>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@layout/background"
+    android:contentDescription="@layout/background" >
+
+<LinearLayout
+    android:id="@+id/user_functions"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="0.37"
+    android:orientation="horizontal" >
+
+    <Button
+        android:id="@+id/myfences"
+        android:layout_width="wrap_content"
+        android:background="@drawable/new_button"
+        android:layout_height="wrap_content"
+        android:layout_weight=".25"
+        android:text="My Fences"
+        android:textColor="@color/whiteflat" />
+
+</LinearLayout>
+  
+    <Button
+        android:id="@+id/createfence"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/new_button"
+        android:text="+"
+        android:textColor="@color/whiteflat"
+        android:textSize="50dp" />
+
+    <ListView
+        android:id="@+id/lvGeofence"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/createfence"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/user_functions"
+        android:background="@layout/background"
+        android:divider="@color/list_divider"
+        android:dividerHeight="3dp" >
+
+    </ListView>
+    
+</RelativeLayout>

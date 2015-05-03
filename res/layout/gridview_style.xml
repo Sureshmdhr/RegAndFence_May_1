@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relaGrid"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@color/menu_background"
+    android:gravity="bottom"
+    android:orientation="vertical" >
+
+    <!--
+        <com.suresh.extras.SquareImageView
+        android:id="@+id/img2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        />
+    -->
+
+    <ImageView
+        android:id="@+id/img2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/txt2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#40ffffff"
+        android:gravity="center_horizontal"
+        android:text="TextView"
+        android:textColor="@color/whiteflat"
+        android:textSize="18sp"
+        android:typeface="serif" />
+
+</LinearLayout>

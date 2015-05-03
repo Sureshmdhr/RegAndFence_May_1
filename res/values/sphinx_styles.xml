@@ -1,0 +1,55 @@
+<?xml version= "1.0" encoding ="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+<style name="Widget.Sphinx.ActionBar.Solid" parent="@android:style/Widget.Holo.ActionBar.Solid">
+	<item name="android:background">@color/menu_background</item>
+	<item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
+	
+</style>
+
+<style name="DialogWindowTitle.Sphinx" parent="@style/DialogWindowTitle_Holo">
+	<item name="android:textAppearance">@style/TextAppearance.Sphinx.DialogWindowTitle</item>
+	<item name="android:divider">@color/menu_background</item>	
+</style>
+
+<style name="MyActionBarTitleText" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/whiteflat</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+</style>
+
+<style name="TextAppearance.Sphinx.DialogWindowTitle" parent="@android:style/TextAppearance.Holo.DialogWindowTitle">
+	<item name="android:textColor">@color/menu_background</item>
+	<item name="android:textStyle">bold</item>
+</style>
+
+<style name="TextAppearance.Sphinx.Medium" parent="@android:style/TextAppearance.Holo.Medium">
+	<item name="android:textStyle">italic</item>
+	<item name="android:textSize">15sp</item>
+</style>
+
+<style name="Widget.Sphinx.Button.Borderless.Small" parent="@android:style/Widget.Holo.Button.Borderless.Small">
+	<item name="android:textColor">@color/menu_background</item>
+	<item name="android:textAppearance">@style/TextAppearance.Sphinx.DialogButton</item>
+</style>
+
+<style name="TextAppearance.Sphinx.DialogButton" parent="@android:style/TextAppearance.Holo.Medium">
+    	<item name="android:textSize">15sp</item>
+</style>
+
+<style name="Sphinx.ButtonBar.AlertDialog" parent="@android:style/Holo.ButtonBar.AlertDialog">
+	<item name="android:background">@color/whiteflat</item>
+	<item name="android:textColor">@color/menu_background</item>
+</style>
+<style name="AlertDialog_Sphinx">
+	<item name="android:fullDark">@android:color/black</item>
+	<item name="android:topDark">@android:color/holo_red_dark</item>
+	<item name="android:centerDark">@android:color/black</item>
+	<item name="android:bottomDark">@android:color/black</item>
+	<item name="android:fullBright">@android:color/black</item>
+	<item name="android:topBright">@android:color/black</item>
+	<item name="android:centerBright">@android:color/black</item>
+	<item name="android:bottomBright">@android:color/black</item>
+	<item name="android:bottomMedium">@android:color/black</item>
+	<item name="android:centerMedium">@android:color/black</item>
+</style></resources>

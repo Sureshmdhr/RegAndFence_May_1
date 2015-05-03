@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@layout/background"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@layout/buttoncolor"
+        android:editable="true"
+        android:focusableInTouchMode="false"
+        android:gravity="center"
+        android:textColorLink="@color/redflat"
+        android:textSize="30dp" />
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.97" >
+
+        <LinearLayout
+            android:id="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_margin="10dp"
+            android:background="@layout/list_notifications"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/msg"
+                android:layout_width="260dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:duplicateParentState="false"
+                android:editable="false"
+                android:focusableInTouchMode="false"
+                android:longClickable="false"
+                android:scrollbars="vertical"
+                android:shadowColor="@color/green"
+                android:textColorLink="@color/redflat"
+                android:textSize="25dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/viewmap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+		android:background="@drawable/new_button"
+        android:text="View on Map" />
+
+</LinearLayout>

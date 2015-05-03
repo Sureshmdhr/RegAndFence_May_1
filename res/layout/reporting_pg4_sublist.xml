@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/fileheader"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@layout/list_notifications"
+        android:gravity="center_vertical"
+        android:minHeight="40dp"
+        android:paddingLeft="20dp"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/whiteflat"
+        android:textSize="15sp"
+        android:typeface="serif" />
+
+    <Button
+        android:id="@+id/rep_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/rep_upload"
+        android:layout_alignParentRight="true"
+        android:background="#99FFFFFF"
+        android:text="X"
+        android:textColor="@color/redflat" />
+
+    <ImageButton
+        android:id="@+id/rep_upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/fileheader"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/rep_delete"
+        android:background="#99FFFFFF"
+        android:src="@android:drawable/ic_menu_upload" />
+
+</RelativeLayout>

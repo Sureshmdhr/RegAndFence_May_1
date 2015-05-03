@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView2"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/spin_head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selct Diasaster Event"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/disaster_events" />
+
+        <TextView
+            android:id="@+id/grid_head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Incident"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:visibility="invisible" />
+
+        <GridView
+            android:id="@+id/impact_gridView"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:horizontalSpacing="10dp"
+            android:numColumns="3"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp"
+            android:visibility="visible" >
+        </GridView>
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:text="Position"
+            android:textColorHint="@color/blue_black"
+            android:typeface="sans" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/TextView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Latitude"
+                android:textColor="@color/blue_black_dark" >
+
+                <requestFocus />
+            </TextView>
+
+            <TextView
+                android:id="@+id/TextView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Longitude"
+                android:textColor="@color/blue_black_dark" />
+
+        </LinearLayout>
+
+        <com.suresh.extras.mymapview
+            android:id="@+id/mapView2"
+            android:layout_width="fill_parent"
+            android:layout_height="250dp"
+            android:background="@color/background" />
+    </LinearLayout>
+
+</ScrollView>

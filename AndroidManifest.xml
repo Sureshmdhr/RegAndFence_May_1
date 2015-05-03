@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="com.suresh.form"
+    android:versionCode="1"
+    android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="17" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+      <uses-feature android:name="android.hardware.camera" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/geofence"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.Sphinx" >
+	        
+		<receiver  
+		    android:icon="@drawable/reporting" android:label="Quick Report" 
+		    android:name="com.suresh.extras.MyWidgetProvider" >
+		       <intent-filter >
+		            <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+		       </intent-filter>
+		       <meta-data android:name="android.appwidget.provider"  
+		           android:resource="@xml/widget_stuff" />
+		</receiver>
+		
+		
+		<activity
+            android:name="RegisterActivity"
+            android:label="@string/app_name" android:screenOrientation="portrait">
+        </activity>
+        
+        <activity android:name="Form" android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.suresh.menus.BaseActivity" android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.suresh.extras.SplashActivity" android:screenOrientation="portrait">
+                       <intent-filter>
+           	    <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+      	   </intent-filter>
+            
+        </activity>
+        <activity android:name="com.suresh.geofence.message" android:screenOrientation="portrait"></activity>
+        <activity android:name="com.suresh.geofence.polygon" android:screenOrientation="portrait"></activity>
+        <activity android:name="com.suresh.geofence.polygonfragment" android:screenOrientation="portrait"></activity>
+        <activity android:name="com.suresh.geofence.circlefragment" android:screenOrientation="portrait"></activity>
+        <activity android:name="com.suresh.geofence.circleupdatefragment" android:screenOrientation="portrait"></activity>
+        <activity android:name="com.suresh.geofence.polygonupdatefragment" android:screenOrientation="portrait"></activity>
+        <activity android:screenOrientation="portrait" android:name="UserMenuActivity"></activity>
+        <activity android:screenOrientation="portrait" android:name="Usersetting"></activity>
+        <activity android:name="com.suresh.geofence.userpage" android:screenOrientation="portrait"></activity>
+        <activity android:name="com.suresh.geofence.myfence" android:screenOrientation="portrait"></activity>
+        <activity android:name="com.suresh.admin.GeofencesInList" android:screenOrientation="portrait"></activity>
+        <activity android:screenOrientation="portrait" android:name="com.suresh.reporting.Reporting_pg1"></activity>
+        <activity android:name="com.suresh.geofence.osmmap" android:screenOrientation="portrait"></activity>
+        <activity android:name="com.suresh.reporting.Reporting" android:screenOrientation="portrait"></activity>
+        <activity android:name="com.suresh.reporting.Impact" android:screenOrientation="portrait"></activity>
+        <activity android:name="com.suresh.reporting.Need" android:screenOrientation="portrait"></activity>
+        <activity android:name="com.suresh.reporting.MyGallery" android:screenOrientation="portrait"></activity>
+        <activity android:name="com.suresh.geofence.updategeofence" android:screenOrientation="portrait"></activity>
+        <activity android:name="com.suresh.geofence.geofences" android:screenOrientation="portrait"></activity>
+        <activity android:screenOrientation="portrait" android:name="com.suresh.reporting.Reporting_pg2"></activity>
+        <activity android:screenOrientation="portrait" android:name="com.suresh.reporting.Reporting_pg3"></activity>
+        <activity android:screenOrientation="portrait" android:name="com.suresh.reporting.Reporting_pg4"></activity>
+        <activity android:screenOrientation="portrait" android:name="com.suresh.geofence.AllNotification"></activity>
+        <activity android:screenOrientation="portrait" android:name="com.suresh.menus.Usersetting"></activity>
+        <activity android:name="com.suresh.extras.About" android:screenOrientation="portrait"></activity>
+        <activity android:screenOrientation="portrait" android:name="com.suresh.admin.AdminMenuActivity"></activity>
+        <activity android:screenOrientation="portrait" android:name="com.suresh.admin.AdminHomePage"></activity>
+        <activity android:name="com.suresh.menus.AndroidMenusActivity" android:screenOrientation="portrait"></activity>
+        </application>
+
+</manifest>
