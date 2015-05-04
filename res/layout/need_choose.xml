@@ -41,33 +41,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/describe"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <EditText
-        android:id="@+id/describe"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/noti_message"
-        android:layout_alignBottom="@+id/noti_message"
-        android:layout_toRightOf="@+id/noti_message"
-        android:background="@color/whiteflat"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:paddingLeft="5dp"
-        android:textSize="15sp" />
-
-    <TextView
-        android:id="@+id/noti_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tv1"
         android:layout_below="@+id/tv1"
-        android:layout_marginTop="40dp"
-        android:text="Description"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/whiteflat"
-        android:textSize="15sp" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/textView1"

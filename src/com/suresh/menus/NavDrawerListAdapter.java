@@ -5,11 +5,13 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.suresh.form.R;
@@ -50,20 +52,36 @@ public class NavDrawerListAdapter extends BaseAdapter {
         ImageView imgIcon = (ImageView) convertView.findViewById(R.id.icon);
         TextView txtTitle = (TextView) convertView.findViewById(R.id.title);
         TextView txtCount = (TextView) convertView.findViewById(R.id.counter);
-         
-        imgIcon.setImageResource(navDrawerItems.get(position).getIcon());        
-        txtTitle.setText(navDrawerItems.get(position).getTitle());
         
-        // displaying count
-        // check whether it set visible or not
-        if(navDrawerItems.get(position).getCounterVisibility()){
-        	txtCount.setText(navDrawerItems.get(position).getCount());
-        }else{
-        	// hide the counter view
-        	txtCount.setVisibility(View.GONE);
+        if(position==0){
+        	imgIcon.setImageResource(navDrawerItems.get(position).getIcon());
+        	imgIcon.getLayoutParams().height=256;
+        	imgIcon.getLayoutParams().width=256;
+        	
+        	txtTitle.setText(navDrawerItems.get(position).getTitle());
+        	txtTitle.setGravity(Gravity.END);
+        	txtTitle.setGravity(50);
+        	//RelativeLayout relativeLayout= (RelativeLayout) convertView.findViewById(R.id.drawer_id);   
         }
-        
+		else
+		{
+			imgIcon.setImageResource(navDrawerItems.get(position).getIcon());        
+			txtTitle.setText(navDrawerItems.get(position).getTitle());
+			
+			// displaying count
+			// check whether it set visible or not
+			if(navDrawerItems.get(position).getCounterVisibility())
+			{
+				txtCount.setText(navDrawerItems.get(position).getCount());
+			}
+			else
+			{
+				// hide the counter view
+				txtCount.setVisibility(View.GONE);
+			}
+	   
+		}
         return convertView;
-	}
 
+	}
 }

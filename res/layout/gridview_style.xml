@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/relaGrid"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="125dp"
     android:background="@color/menu_background"
     android:gravity="bottom"
     android:orientation="vertical" >
@@ -32,7 +32,7 @@
         android:gravity="center_horizontal"
         android:text="TextView"
         android:textColor="@color/whiteflat"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:typeface="serif" />
 
 </LinearLayout>

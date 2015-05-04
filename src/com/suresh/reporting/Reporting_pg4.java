@@ -83,9 +83,13 @@ public class Reporting_pg4 extends BaseActivity
 								unuploaded_files.remove(position);
 								filecache.deletefile(name);
 								adapter.notifyDataSetChanged();
-								row.setAlpha(1);
+								//row.setAlpha(1);
+								Toast.makeText(getApplicationContext(), "Uploaded", Toast.LENGTH_LONG).show();
 							}
-							Toast.makeText(getApplicationContext(), "Uploaded", Toast.LENGTH_LONG).show();
+							else
+							{
+								toaster("Upload Failed");
+							}
 						}
 						else
 						{

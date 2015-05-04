@@ -1,7 +1,11 @@
 package com.suresh.extras;
 
+import com.suresh.geofence.geofences;
+import com.suresh.menus.BaseActivity;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -43,6 +47,8 @@ public class GPSTracker extends Service implements LocationListener {
  
     // Declaring a Location Manager
     protected LocationManager locationManager;
+
+	private ProgressDialog mProgressDialog;
  
     public GPSTracker(Context context) {
     	
@@ -57,7 +63,46 @@ public class GPSTracker extends Service implements LocationListener {
  
     public Location getLocation() {
         try {
-        	
+        		Log.i("name", mContext.getClass().getSimpleName());
+        		mProgressDialog = new ProgressDialog(mContext);
+        		mProgressDialog.setMessage("Please Wait for Satellites...");
+        		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            	if(mContext.getClass().getSimpleName().equals("Reporting_pg1"))
+            	{
+            		mProgressDialog.setCancelable(false);
+            		mProgressDialog.show(mContext,
+                            "GPS",
+                            "Please Wait for Satellites...",
+                            false,
+                            true,
+                            new DialogInterface.OnCancelListener(){
+
+								@Override
+								public void onCancel(DialogInterface arg0)
+								{
+/*									Intent i=new Intent(mContext.getApplicationContext(),geofences.class);
+									startActivity(i);
+*/								};
+            		}
+
+            				);
+            	}
+            	else
+            	{
+            		mProgressDialog.setCancelable(true);
+            		mProgressDialog.show(mContext,
+                            "GPS",
+                            "Please Wait for Satellites...",
+                            false,
+                            true,
+                            new DialogInterface.OnCancelListener(){
+                                @Override
+                                public void onCancel(DialogInterface dialog) {
+                                }
+                            }
+
+            				);
+            	}
             locationManager = (LocationManager) mContext
                     .getSystemService(LOCATION_SERVICE);
  
@@ -65,11 +110,12 @@ public class GPSTracker extends Service implements LocationListener {
             isGPSEnabled = locationManager
                     .isProviderEnabled(LocationManager.GPS_PROVIDER);
  
-/*            // getting network status
             isNetworkEnabled = locationManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-*/ 
+ 
         	//onGpsStatusChanged();
+        	mProgressDialog.dismiss();
+        	mProgressDialog.cancel();
 
             if (!isGPSEnabled) 
             {
@@ -95,11 +141,11 @@ public class GPSTracker extends Service implements LocationListener {
                             {
                                 latitude = location.getLatitude();
                                 longitude = location.getLongitude();
-                                Log.i("loc_gps", latitude+"\n"+longitude);
+                                Log.i("loc_gps_loc_not_null", latitude+"\n"+longitude);
                             }
                             else
                             {
-                                Log.e("loc_gps", latitude+"\n"+longitude);
+                                Log.e("loc_gps_null", latitude+"\n"+longitude);
 
                             }
                         }

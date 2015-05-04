@@ -95,7 +95,7 @@
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">
-        <item>@drawable/user</item>
+        <item>@drawable/ic_profile</item>
         <item>@drawable/home</item>
         <item>@drawable/reporting</item>
         <item>@drawable/geofence</item>

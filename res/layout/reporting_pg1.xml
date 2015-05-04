@@ -11,10 +11,14 @@
 
         <TextView
             android:id="@+id/spin_head"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Selct Diasaster Event"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:text="Select Diasaster Event"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/blue_black_dark"
+            android:textSize="20sp" />
 
         <Spinner
             android:id="@+id/spinner1"
@@ -24,21 +28,27 @@
 
         <TextView
             android:id="@+id/grid_head"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:text="Select Incident"
             android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/blue_black_dark"
+            android:textSize="20sp"
             android:visibility="invisible" />
 
         <GridView
             android:id="@+id/impact_gridView"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="275dp"
+            android:layout_margin="10dp"
+            android:layout_weight="3.21"
             android:horizontalSpacing="10dp"
             android:numColumns="3"
             android:stretchMode="columnWidth"
             android:verticalSpacing="10dp"
             android:visibility="visible" >
+
         </GridView>
 
         <TextView
@@ -48,12 +58,14 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:text="Position"
-            android:textColorHint="@color/blue_black"
+            android:color="@color/heading"
+            android:textSize="15sp"
             android:typeface="sans" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp" >
 
             <TextView
                 android:id="@+id/TextView1"
@@ -62,7 +74,6 @@
                 android:layout_weight="1"
                 android:text="Latitude"
                 android:textColor="@color/blue_black_dark" >
-
                 <requestFocus />
             </TextView>
 
@@ -73,14 +84,15 @@
                 android:layout_weight="1"
                 android:text="Longitude"
                 android:textColor="@color/blue_black_dark" />
-
         </LinearLayout>
 
         <com.suresh.extras.mymapview
             android:id="@+id/mapView2"
             android:layout_width="fill_parent"
             android:layout_height="250dp"
+            android:layout_margin="5dp"
             android:background="@color/background" />
+
     </LinearLayout>
 
 </ScrollView>

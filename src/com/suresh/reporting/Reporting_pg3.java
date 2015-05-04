@@ -161,10 +161,10 @@ public class Reporting_pg3 extends Activity
 								{
 									EditText et_count = (EditText)view.findViewById(R.id.count);
 								//	EditText et_unit =(EditText)view.findViewById(R.id.unit);
-									EditText et_describe =(EditText)view.findViewById(R.id.describe);
+								//	EditText et_describe =(EditText)view.findViewById(R.id.describe);
 									
 									String count = et_count.getText().toString();
-									String describe = et_describe.getText().toString();
+								//	String describe = et_describe.getText().toString();
 									//String unit = et_unit.getText().toString();
 									if(count.equals(""))
 									{
@@ -174,7 +174,7 @@ public class Reporting_pg3 extends Activity
 									{
 										adapter.setKeyvalue(pos, "count", count);
 									//	adapter.setKeyvalue(pos, "unit", unit);
-										adapter.setKeyvalue(pos, "describe", describe);
+									//	adapter.setKeyvalue(pos, "describe", describe);
 										if(!positions.contains(pos))
 											positions.add(pos);
 										dialog.dismiss();
@@ -211,7 +211,7 @@ public class Reporting_pg3 extends Activity
 						jsonObject.put("timestamp_occurance",new FileCache(Reporting_pg3.this).getDate());
 						jsonObject.put("latitude", latitude);
 						jsonObject.put("longitude",longitude);
-						jsonObject.put("description", needs.get(1).getValue());
+				//		jsonObject.put("description", needs.get(1).getValue());
 						need_Object.put(String.valueOf(i+1),jsonObject);
 					}
 					catch (JSONException e) 

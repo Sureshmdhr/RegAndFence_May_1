@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,7 +14,6 @@ import org.mapsforge.core.model.LatLong;
 import org.mapsforge.core.model.Point;
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
 import org.mapsforge.map.android.util.AndroidUtil;
-import org.mapsforge.map.android.view.MapView;
 import org.mapsforge.map.layer.cache.TileCache;
 import org.mapsforge.map.layer.renderer.TileRendererLayer;
 import org.mapsforge.map.rendertheme.InternalRenderTheme;
@@ -35,6 +33,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -59,7 +58,6 @@ import com.suresh.extras.SessionManager;
 import com.suresh.extras.TappableMarker;
 import com.suresh.extras.mymapview;
 import com.suresh.form.R;
-import com.suresh.geofence.geofences;
 
 public class Reporting_pg1 extends Activity implements LocationListener
 {
@@ -89,6 +87,7 @@ public class Reporting_pg1 extends Activity implements LocationListener
 	public static com.suresh.extras.TappableMarker usermarker;
 	private TextView lats;
 	private TextView lgts;
+	private ProgressDialog mProgressDialog;
 
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -382,6 +381,7 @@ public class Reporting_pg1 extends Activity implements LocationListener
 				  {
 					  mediaFile=new File(cacheDir,photoname+i+".jpg");
 					  i=i+1;
+					  Log.i("i", ""+i);
 				  }
 				  Log.i("file_name",mediaFile.getName());	
 			} 
@@ -538,31 +538,11 @@ public class Reporting_pg1 extends Activity implements LocationListener
         ((TileRendererLayer) this.tileRendererLayer).setMapFile(getMapFile());
         ((TileRendererLayer) this.tileRendererLayer).setXmlRenderTheme(InternalRenderTheme.OSMARENDER);
         my_map.getLayerManager().getLayers().add(tileRendererLayer);
-        GPSTracker gps=new GPSTracker(Reporting_pg1.this);
         if(gps.canGetLocation())
         {
-        	ProgressDialog mProgressDialog = new ProgressDialog(Reporting_pg1.this);
-        	mProgressDialog.setMessage("Please Wait for Satellites...");
-        	mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        	mProgressDialog.setCancelable(false);
-        	mProgressDialog.show();
-        	
-        	Location my_loc = gps.getLocation();
-        	while(my_loc== null)
-        	{
-        		my_loc = gps.getLocation();
-        	}
-        	float acc = gps.getLocation().getAccuracy();
-    		Log.i("acc", String.valueOf(acc));
-        	while(acc>5.0)
-        	{
-        		acc=gps.getLocation().getAccuracy();
-        		Log.i("acc", String.valueOf(acc));
-        	}
- 
     		my_map.getModel().mapViewPosition.setCenter(new LatLong(gps.getLatitude(), gps.getLongitude()));
     		createUserMarker(gps.getLatitude(), gps.getLongitude());
-    		mProgressDialog.dismiss();
+    	//	mProgressDialog.dismiss();
         }
         else
         {
@@ -570,7 +550,36 @@ public class Reporting_pg1 extends Activity implements LocationListener
         }
 	}
 	
-    	private void createUserMarker(double paramDouble1, double paramDouble2)
+    	private void getMyLoc() 
+    	{
+        	//new GPSProcess().execute();
+	
+    	}
+    	
+    	private class GPSProcess extends AsyncTask<String, Void, Boolean> 
+    	{
+    		protected Boolean doInBackground(String... params) 
+    		{
+            	Location my_loc = gps.getLocation();
+            	int i=0;
+            	while(my_loc==null||i>100)
+            	{
+            		my_loc = gps.getLocation();
+            		i++;
+            	}
+            	if(i>100)
+            		return false;
+            	else
+            		return true;
+    		}
+
+    		protected void onPostExecute(Boolean result) 
+    		{
+    			mProgressDialog.dismiss(); 
+    		}
+    	}
+
+		private void createUserMarker(double paramDouble1, double paramDouble2)
     	{
             lats.setText(String.valueOf(paramDouble1));
             lgts.setText(String.valueOf(paramDouble2));
@@ -602,28 +611,7 @@ public class Reporting_pg1 extends Activity implements LocationListener
 		}
 		else
 		{
-/*			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage("Do You Want To Download Files Now?")
-			.setTitle("Download Files");
-			builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) 
-				{
-					DownloadZipfile mew = new DownloadZipfile();
-					mew.execute(file_url);
-				}
-			});
-			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-			{
-				public void onClick(DialogInterface dialog, int which) 
-				{
-					dialog.cancel();
-					finish();
-				}
-			});
-			AlertDialog dialog = builder.create();
-			dialog.setCanceledOnTouchOutside(false);
-			dialog.show();	
-*/		}
+		}
 	}
 	
 	private File getMapFile() 
@@ -654,10 +642,9 @@ public class Reporting_pg1 extends Activity implements LocationListener
 	@Override
 	public void onStatusChanged(String arg0, int arg1, Bundle arg2) 
 	{
-		if(new GPSTracker(Reporting_pg1.this).canGetLocation())
+		if(gps.canGetLocation())
 		{
-			Location loc = new GPSTracker().getLocation();
-			createUserMarker(loc.getLatitude(), loc.getLongitude());
+			createUserMarker(gps.getLatitude(), gps.getLongitude());
 		}
 		else
 		{

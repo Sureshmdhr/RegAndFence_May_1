@@ -137,6 +137,7 @@ public class geofences extends BaseActivity implements OnItemLongClickListener,L
     String unzipLocation = Environment.getExternalStorageDirectory().getPath()+"/";
     String StorezipFileLocation =Environment.getExternalStorageDirectory().getPath() + "/DownloadedZip"; 
     String DirectoryName=Environment.getExternalStorageDirectory().getPath()+"/";
+	private GPSTracker gps_conn;
 	@SuppressLint("NewApi")
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -148,7 +149,7 @@ public class geofences extends BaseActivity implements OnItemLongClickListener,L
 		setTitle(navMenuTitles[position]);
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
-		
+
 	    SessionManager session = new SessionManager(getApplicationContext());
 	    HashMap<String, String> user = session.getUserDetails();
 	    username = user.get(SessionManager.KEY_EMAIL);
@@ -187,8 +188,14 @@ public class geofences extends BaseActivity implements OnItemLongClickListener,L
         {
      	   public void onClick(View view) 
      	   {
-     		   if(new GPSTracker(geofences.this).canGetLocation())
-     			   view.showContextMenu();
+     		   if(gps_conn.canGetLocation())
+     		   {
+     			   if(gps_conn.getLocation()!=null)
+     		   			view.showContextMenu();
+     		   			else
+     		   				toaster("Waiting GPS Connection");
+
+     		   }
      		   else
      		   {
      			   toaster("Enable GPS");
@@ -201,8 +208,14 @@ public class geofences extends BaseActivity implements OnItemLongClickListener,L
         {
      	   public void onClick(View view) 
      	   {
-     		   if(new GPSTracker(geofences.this).canGetLocation())
-     			   view.showContextMenu();
+     		   if(gps_conn.canGetLocation())
+     		   {
+     			   if(gps_conn.getLocation()!=null)
+     		   			view.showContextMenu();
+     		   			else
+     		   				toaster("Waiting GPS Connection");
+
+     		   }
      		   else
      		   {
      			   toaster("Enable GPS");
@@ -295,7 +308,7 @@ public class geofences extends BaseActivity implements OnItemLongClickListener,L
 	 	private void getAllData()
 	 	{
 	        mydata = new Getdata(username,this);
-		    if(new GPSTracker(getApplicationContext()).haveNetworkConnection())
+		    if(haveNetworkConnection())
 		    {
 		    	String all_data = mydata.getData();
 		        geofencename=mydata.convertStringtoArrayList(all_data,"name");
@@ -367,11 +380,11 @@ public class geofences extends BaseActivity implements OnItemLongClickListener,L
         ((TileRendererLayer) this.tileRendererLayer).setMapFile(getMapFile());
         ((TileRendererLayer) this.tileRendererLayer).setXmlRenderTheme(InternalRenderTheme.OSMARENDER);
         mv.getLayerManager().getLayers().add(tileRendererLayer);
-		if(new GPSTracker(geofences.this).canGetLocation())
+		gps_conn=new GPSTracker(geofences.this);
+		if(gps_conn.canGetLocation())
 		{
-			GPSTracker gps=new GPSTracker(this);
-			mv.getModel().mapViewPosition.setCenter(new LatLong(gps.getLatitude(), gps.getLongitude()));
-			createUserMarker(gps.getLatitude(), gps.getLongitude());
+				mv.getModel().mapViewPosition.setCenter(new LatLong(gps_conn.getLatitude(), gps_conn.getLongitude()));
+				createUserMarker(gps_conn.getLatitude(), gps_conn.getLongitude());
 		}
 		else
 		{
