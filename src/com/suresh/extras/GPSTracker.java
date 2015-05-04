@@ -69,7 +69,7 @@ public class GPSTracker extends Service implements LocationListener {
         		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             	if(mContext.getClass().getSimpleName().equals("Reporting_pg1"))
             	{
-            		mProgressDialog.setCancelable(false);
+            		mProgressDialog.setCancelable(true);
             		mProgressDialog.show(mContext,
                             "GPS",
                             "Please Wait for Satellites...",
