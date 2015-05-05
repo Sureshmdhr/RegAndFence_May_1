@@ -4,36 +4,82 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical" >
-<RadioGroup 
-    android:id="@+id/damage_type"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" 
-    android:orientation="vertical">
 
-    <RadioButton
-        android:id="@+id/radioButton1"
+    <LinearLayout
+        android:id="@+id/ll1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Owner"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/whiteflat" />
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp" >
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contact No"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/whiteflat" />
+
+        <EditText
+            android:id="@+id/contact"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="numberSigned" />
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/damage_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:checked="true"
-        android:text="Destroyed"
-        android:textColor="@color/whiteflat" />
+        android:layout_margin="5dp"
+        android:orientation="vertical" >
 
-    <RadioButton
-        android:id="@+id/radioButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Moderate Damage" 
-        android:textColor="@color/whiteflat" />
+        <RadioButton
+            android:id="@+id/radioButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:checked="true"
+            android:text="Destroyed"
+            android:textColor="@color/whiteflat" />
 
-    <RadioButton
-        android:id="@+id/radioButton3"
-        android:layout_width="wrap_content"
-        android:textColor="@color/whiteflat" 
-        android:layout_height="wrap_content"
-        android:text="Severe Damage" />
-</RadioGroup>
-    
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Moderate Damage"
+            android:textColor="@color/whiteflat" />
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Severe Damage"
+            android:textColor="@color/whiteflat" />
+    </RadioGroup>
+
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"

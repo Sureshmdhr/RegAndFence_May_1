@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.suresh.admin.GeofencesInList;
 import com.suresh.form.Form;
@@ -18,11 +19,13 @@ public class SplashActivity extends Activity {
 	ProgressBar p;
 	int progressstatus=0;
 	Handler h= new Handler();
+	private TextView version;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
 		p= (ProgressBar) findViewById(R.id.progressBar1);
+		version=(TextView)findViewById(R.id.version);
         SessionManager session = new SessionManager(getApplicationContext());
         if(session.checkLogin())
         {

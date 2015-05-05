@@ -33,7 +33,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.media.ExifInterface;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -45,6 +44,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -88,6 +88,7 @@ public class Reporting_pg1 extends Activity implements LocationListener
 	private TextView lats;
 	private TextView lgts;
 	private ProgressDialog mProgressDialog;
+	private String user_id;
 
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -101,6 +102,7 @@ public class Reporting_pg1 extends Activity implements LocationListener
 		session=new SessionManager(getApplicationContext());
         HashMap<String, String> user = session.getUserDetails();
         user_email=user.get(SessionManager.KEY_EMAIL);
+        user_id=user.get(SessionManager.KEY_ID);
   		
 		my_map=(mymapview)findViewById(R.id.mapView2);
         my_map.setClickable(true);
@@ -133,7 +135,6 @@ public class Reporting_pg1 extends Activity implements LocationListener
 				}
 			});
 			
-		gps = new GPSTracker(Reporting_pg1.this);
 
 		incidents_grid.setOnItemClickListener(new OnItemClickListener()
 		{
@@ -166,6 +167,7 @@ public class Reporting_pg1 extends Activity implements LocationListener
 							incident.put("longitude",usermarker.getLatLong().longitude);
 							incident.put("timestamp_occurance",new FileCache(Reporting_pg1.this).getDate());
 							incident.put("description", "no description");
+							incident.put("user_id",user_id);
 						} 
 						catch (JSONException e) 
 						{
@@ -220,6 +222,9 @@ public class Reporting_pg1 extends Activity implements LocationListener
 									public void onClick(View arg0)
 									{
 									    radioGroup = (RadioGroup)view.findViewById(R.id.damage_type);
+										EditText owner_name = (EditText)view.findViewById(R.id.name);
+										EditText contact = (EditText)view.findViewById(R.id.contact);
+									    radioGroup = (RadioGroup)view.findViewById(R.id.damage_type);
 										int selectedOption = radioGroup.getCheckedRadioButtonId();
 							            RadioButton radioGenderButton = (RadioButton)view.findViewById(selectedOption);
 							            Log.i("choose", String.valueOf(radioGenderButton.getText()));
@@ -235,6 +240,9 @@ public class Reporting_pg1 extends Activity implements LocationListener
 											incident.put("longitude",usermarker.getLatLong().longitude);
 											incident.put("timestamp_occurance",new FileCache(Reporting_pg1.this).getDate());
 											incident.put("description", "no description");
+											incident.put("owner_name",owner_name.getText().toString());
+											incident.put("owner_contact",contact.getText().toString());
+											incident.put("user_id",user_id);
 										} 
 										catch (JSONException e) 
 										{
@@ -400,9 +408,6 @@ public class Reporting_pg1 extends Activity implements LocationListener
 			if (resultCode == RESULT_OK) 
 			{
 				resizeCapturedImage();
-				//GPSTracker gps=new GPSTracker(Reporting_pg1.this);
-				//double longitude = gps.getLongitude();
-				//double latitude = gps.getLatitude();
 				double longitude = usermarker.getLatLong().longitude;
 				double latitude =usermarker.getLatLong().longitude;
 				geoTag(mediaFile.getAbsolutePath(),latitude,longitude);
@@ -538,47 +543,11 @@ public class Reporting_pg1 extends Activity implements LocationListener
         ((TileRendererLayer) this.tileRendererLayer).setMapFile(getMapFile());
         ((TileRendererLayer) this.tileRendererLayer).setXmlRenderTheme(InternalRenderTheme.OSMARENDER);
         my_map.getLayerManager().getLayers().add(tileRendererLayer);
-        if(gps.canGetLocation())
-        {
-    		my_map.getModel().mapViewPosition.setCenter(new LatLong(gps.getLatitude(), gps.getLongitude()));
-    		createUserMarker(gps.getLatitude(), gps.getLongitude());
-    	//	mProgressDialog.dismiss();
-        }
-        else
-        {
-        	showSettingsAlert();
-        }
+        gps = new GPSTracker(Reporting_pg1.this);
+        my_map.getModel().mapViewPosition.setCenter(new LatLong(gps.getLatitude(), gps.getLongitude()));
+        createUserMarker(gps.getLatitude(), gps.getLongitude());
 	}
 	
-    	private void getMyLoc() 
-    	{
-        	//new GPSProcess().execute();
-	
-    	}
-    	
-    	private class GPSProcess extends AsyncTask<String, Void, Boolean> 
-    	{
-    		protected Boolean doInBackground(String... params) 
-    		{
-            	Location my_loc = gps.getLocation();
-            	int i=0;
-            	while(my_loc==null||i>100)
-            	{
-            		my_loc = gps.getLocation();
-            		i++;
-            	}
-            	if(i>100)
-            		return false;
-            	else
-            		return true;
-    		}
-
-    		protected void onPostExecute(Boolean result) 
-    		{
-    			mProgressDialog.dismiss(); 
-    		}
-    	}
-
 		private void createUserMarker(double paramDouble1, double paramDouble2)
     	{
             lats.setText(String.valueOf(paramDouble1));
@@ -635,21 +604,11 @@ public class Reporting_pg1 extends Activity implements LocationListener
 	@Override
 	public void onProviderEnabled(String arg0)
 	{
-/*		Location loc = new GPSTracker().getLocation();
-		createUserMarker(loc.getLatitude(), loc.getLongitude());
-*/	}
+	}
 
 	@Override
 	public void onStatusChanged(String arg0, int arg1, Bundle arg2) 
 	{
-		if(gps.canGetLocation())
-		{
-			createUserMarker(gps.getLatitude(), gps.getLongitude());
-		}
-		else
-		{
-			showSettingsAlert();
-		}
 	}
 
     public void showSettingsAlert(){

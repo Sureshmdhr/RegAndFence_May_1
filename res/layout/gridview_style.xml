@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/relaGrid"
     android:layout_width="match_parent"
-    android:layout_height="125dp"
-    android:background="@color/menu_background"
+    android:layout_height="75dp"
+    android:background="@color/flatgreydark"
     android:gravity="bottom"
     android:orientation="vertical" >
 
@@ -29,7 +29,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="#40ffffff"
-        android:gravity="center_horizontal"
+        android:gravity="center_horizontal|bottom"
         android:text="TextView"
         android:textColor="@color/whiteflat"
         android:textSize="14sp"

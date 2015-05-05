@@ -14,7 +14,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="25dp"
-        android:text="Count"
+        android:text="Need"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/whiteflat"
         android:textSize="15sp" />
@@ -36,15 +36,6 @@
     </EditText>
 
     <TextView
-        android:id="@+id/noti_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/tv1"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -53,5 +44,46 @@
         android:layout_marginTop="30dp"
         android:text="(in Persons)"
         android:textColor="@color/whiteflat" />
+
+    <TextView
+        android:id="@+id/TextView02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tv1"
+        android:layout_below="@+id/textView1"
+        android:text="Supplied"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/whiteflat"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/supplied"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/TextView02"
+        android:layout_alignBottom="@+id/TextView02"
+        android:layout_alignRight="@+id/textView1"
+        android:background="@color/whiteflat"
+        android:ems="10"
+        android:inputType="number"
+        android:paddingLeft="5dp"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/supplied"
+        android:layout_below="@+id/supplied"
+        android:text="(in Persons)"
+        android:textColor="@color/whiteflat" />
+
+    <TextView
+        android:id="@+id/noti_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/TextView01"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

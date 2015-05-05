@@ -1,6 +1,7 @@
 package com.suresh.reporting;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -19,18 +20,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.suresh.extras.GPSTracker;
 import com.suresh.extras.GridAdapter;
 import com.suresh.form.R;
+import com.suresh.geofence.AllNotification;
 
 public class Reporting_pg2 extends Activity
 {
@@ -47,6 +52,11 @@ public class Reporting_pg2 extends Activity
 	private ArrayList<String> impact_array;
 	private String latitude;
 	private String longitude;
+	private ListView my_selected_list;
+	private ArrayList<String> list_array=new ArrayList<String>();
+	List<HashMap<String,Object>> aList = new ArrayList<HashMap<String,Object>>();
+	private HashMap<String, Object> hm;
+	private SimpleAdapter list_adapter;
 	public static JSONObject reporting;
 	
 	@SuppressLint("InflateParams")
@@ -71,6 +81,7 @@ public class Reporting_pg2 extends Activity
 		}
 		TextView tv_eventtitle=(TextView)findViewById(R.id.event_title);
 		tv_eventtitle.setText(Reporting_pg1.disaster_incident);
+
 
 		impact_gridview=(GridView)findViewById(R.id.impact_gridView);
 		FileCache fileCache = new FileCache(Reporting_pg2.this);
@@ -165,11 +176,25 @@ public class Reporting_pg2 extends Activity
 								else
 								{
 									adapter.setKeyvalue(pos, "count", count);
+									adapter.setKeyvalue(pos,"name",adapter.getItem(pos));
 									//adapter.setKeyvalue(pos, "unit", unit);
 									//adapter.setKeyvalue(pos, "describe", describe);
 									if(!positions.contains(pos))
 										positions.add(pos);
 									dialog.dismiss();
+									
+									aList.clear();
+									for(int i=0;i<positions.size();i++)
+									{
+										List<NameValuePair> impacts = adapter.getKeyvalue(positions.get(i));
+										hm = new HashMap<String,Object>();
+							            hm.put("title", impacts.get(1).getValue());
+							            hm.put("message","Count:"+impacts.get(0).getValue());
+							            aList.add(hm);
+							        }
+									
+									list_adapter.notifyDataSetChanged();
+
 								}
 							}
 						});
@@ -181,7 +206,30 @@ public class Reporting_pg2 extends Activity
 			}				
 		});
 		
+		my_selected_list=(ListView)findViewById(R.id.my_selected_list);
+		for(int i=0;i<positions.size();i++)
+		{
+			List<NameValuePair> impacts = adapter.getKeyvalue(positions.get(i));
+			hm = new HashMap<String,Object>();
+            hm.put("title", impacts.get(1).getValue());
+            hm.put("message",impacts.get(0).getValue());
+            aList.add(hm);
+        }
+        String[] from = {"title","message" };
+        int[] to = { R.id.noti_title, R.id.noti_message};
 
+        list_adapter = new SimpleAdapter(this, aList, R.layout.all_noti_sublist, from, to)
+        {
+			public View getView(final int position, View convertView, ViewGroup parent)
+			{
+        		final View row =  super.getView(position, convertView, parent);	
+        		View delete = row.findViewById(R.id.noti_delete);
+        		delete.setVisibility(View.GONE);
+				return row;
+			}
+        };
+   		my_selected_list.setAdapter(list_adapter);
+		
 		img_next=(ImageButton)findViewById(R.id.imageButton2);
 		img_next.setOnClickListener(new OnClickListener()
 		{
@@ -202,7 +250,7 @@ public class Reporting_pg2 extends Activity
 						{
 							GPSTracker gps=new GPSTracker(Reporting_pg2.this);
 							//jsonObject.put("id",i+1);
-							jsonObject.put("item_name", adapter.getItem(i));
+							jsonObject.put("item_name", impacts.get(1).getValue());
 							jsonObject.put("magnitude", impacts.get(0).getValue());
 							jsonObject.put("timestamp_occurance",new FileCache(Reporting_pg2.this).getDate());
 							jsonObject.put("latitude", latitude);

@@ -40,7 +40,7 @@
         <GridView
             android:id="@+id/impact_gridView"
             android:layout_width="match_parent"
-            android:layout_height="275dp"
+            android:layout_height="240dp"
             android:layout_margin="10dp"
             android:layout_weight="3.21"
             android:horizontalSpacing="10dp"
@@ -53,14 +53,15 @@
 
         <TextView
             android:id="@+id/textView1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
+            android:gravity="center"
             android:text="Position"
-            android:color="@color/heading"
             android:textSize="15sp"
-            android:typeface="sans" />
+            android:typeface="sans"
+            android:color="@color/heading" />
 
         <LinearLayout
             android:layout_width="match_parent"

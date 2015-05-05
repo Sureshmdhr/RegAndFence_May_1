@@ -95,13 +95,13 @@ public class GridAdapter extends BaseAdapter {
 			{
 				nameValuePair.set(0,new BasicNameValuePair(paramString1, paramString2));
 			}
-			else if (paramString1.equalsIgnoreCase("unit"))
-			{
-				nameValuePair.set(1,new BasicNameValuePair(paramString1, paramString2));
-			}
-			else if (paramString1.equalsIgnoreCase("describe"))
+			else if (paramString1.equalsIgnoreCase("supplied"))
 			{
 				nameValuePair.set(2,new BasicNameValuePair(paramString1, paramString2));
+			}
+			else if (paramString1.equalsIgnoreCase("name"))
+			{
+				nameValuePair.set(1,new BasicNameValuePair(paramString1, paramString2));
 			}
 		}
 		else

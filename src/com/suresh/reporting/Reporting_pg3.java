@@ -3,6 +3,7 @@ package com.suresh.reporting;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -20,6 +21,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -27,6 +29,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,10 +49,14 @@ public class Reporting_pg3 extends Activity
 	private ArrayList<Integer> positions=new ArrayList<Integer>();
 	protected JSONArray need_Array;
 	private String parent_name;
-	private ArrayList<String> impact_array;
+	private ArrayList<String> impact_array=new ArrayList<String>();
+	List<HashMap<String,Object>> aList = new ArrayList<HashMap<String,Object>>();
 	private String latitude;
 	private String longitude;
+	private ListView my_selected_list;
+	private SimpleAdapter list_adapter;
 	public static JSONObject reporting;
+	private HashMap<String, Object> hm;
 
 	@SuppressLint("InflateParams")
 	protected void onCreate(Bundle savedInstanceState)
@@ -160,24 +168,42 @@ public class Reporting_pg3 extends Activity
 								public void onClick(View arg0) 
 								{
 									EditText et_count = (EditText)view.findViewById(R.id.count);
-								//	EditText et_unit =(EditText)view.findViewById(R.id.unit);
+									EditText et_supplied =(EditText)view.findViewById(R.id.supplied);
 								//	EditText et_describe =(EditText)view.findViewById(R.id.describe);
 									
 									String count = et_count.getText().toString();
-								//	String describe = et_describe.getText().toString();
+									String supplied = et_supplied.getText().toString();
 									//String unit = et_unit.getText().toString();
-									if(count.equals(""))
+									if(count.equals("")&&supplied.equals(""))
 									{
 										Toast.makeText(getApplicationContext(), "Empty Fields", Toast.LENGTH_SHORT).show();
 									}
 									else
 									{
+										if(count.equals(""))
+											count="0";
+										else if(supplied.equals(""))
+											supplied="0";
 										adapter.setKeyvalue(pos, "count", count);
-									//	adapter.setKeyvalue(pos, "unit", unit);
+										adapter.setKeyvalue(pos,"name",adapter.getItem(pos));
+										adapter.setKeyvalue(pos, "supplied", supplied);
 									//	adapter.setKeyvalue(pos, "describe", describe);
 										if(!positions.contains(pos))
 											positions.add(pos);
 										dialog.dismiss();
+										
+										aList.clear();
+										for(int i=0;i<positions.size();i++)
+										{
+											List<NameValuePair> needs = adapter.getKeyvalue(positions.get(i));
+											hm = new HashMap<String,Object>();
+								            hm.put("title", needs.get(1).getValue());
+								            hm.put("message","Need:For "+needs.get(0).getValue()+"Person\nSupplied: For "+needs.get(2).getValue()+"Person");
+								            aList.add(hm);
+								        }
+										
+										list_adapter.notifyDataSetChanged();
+
 									}
 								}
 							});
@@ -187,7 +213,32 @@ public class Reporting_pg3 extends Activity
 				}
 			}							
 		});
+
 		
+		my_selected_list=(ListView)findViewById(R.id.my_selected_list);
+		for(int i=0;i<positions.size();i++)
+		{
+			List<NameValuePair> needs = adapter.getKeyvalue(positions.get(i));
+			hm = new HashMap<String,Object>();
+            hm.put("title", needs.get(1).getValue());
+            hm.put("message","Need:"+needs.get(0).getValue()+"\nSupplied"+needs.get(2).getValue());
+            aList.add(hm);
+        }
+        String[] from = {"title","message" };
+        int[] to = { R.id.noti_title, R.id.noti_message};
+
+        list_adapter = new SimpleAdapter(this, aList, R.layout.all_noti_sublist, from, to)
+        {
+			public View getView(final int position, View convertView, ViewGroup parent)
+			{
+        		final View row =  super.getView(position, convertView, parent);	
+        		View delete = row.findViewById(R.id.noti_delete);
+        		delete.setVisibility(View.GONE);
+				return row;
+			}
+        };
+   		my_selected_list.setAdapter(list_adapter);
+
 		img_next=(ImageButton)findViewById(R.id.imageButton2);
 		img_next.setOnClickListener(new OnClickListener()
 		{
@@ -206,8 +257,9 @@ public class Reporting_pg3 extends Activity
 					{
 						GPSTracker gps=new GPSTracker(Reporting_pg3.this);
 						//jsonObject.put("id",i+1);
-						jsonObject.put("item_name", adapter.getItem(i));
+						jsonObject.put("item_name", needs.get(1).getValue());
 						jsonObject.put("magnitude", needs.get(0).getValue());
+						jsonObject.put("supplied_per_person", needs.get(1).getValue());
 						jsonObject.put("timestamp_occurance",new FileCache(Reporting_pg3.this).getDate());
 						jsonObject.put("latitude", latitude);
 						jsonObject.put("longitude",longitude);

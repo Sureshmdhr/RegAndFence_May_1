@@ -308,8 +308,6 @@ public class geofences extends BaseActivity implements OnItemLongClickListener,L
 	 	private void getAllData()
 	 	{
 	        mydata = new Getdata(username,this);
-		    if(haveNetworkConnection())
-		    {
 		    	String all_data = mydata.getData();
 		        geofencename=mydata.convertStringtoArrayList(all_data,"name");
 			    status=mydata.convertStringtoArrayList(all_data,"status");
@@ -329,12 +327,6 @@ public class geofences extends BaseActivity implements OnItemLongClickListener,L
 			    admin_radius=mydata.convertStringtoArrayList(admin_all_data,"radius");
 			    mydata.convertStringtoArrayList(admin_all_data,"message");
 			    admin_shape=mydata.convertStringtoArrayList(admin_all_data,"shape");
-		    }
-		    else
-		    {
-		    	mydata=null;
-		    	toaster("No Internet Connection");
-		    }
         }
 
 	@SuppressWarnings("deprecation")
@@ -381,17 +373,8 @@ public class geofences extends BaseActivity implements OnItemLongClickListener,L
         ((TileRendererLayer) this.tileRendererLayer).setXmlRenderTheme(InternalRenderTheme.OSMARENDER);
         mv.getLayerManager().getLayers().add(tileRendererLayer);
 		gps_conn=new GPSTracker(geofences.this);
-		if(gps_conn.canGetLocation())
-		{
-				mv.getModel().mapViewPosition.setCenter(new LatLong(gps_conn.getLatitude(), gps_conn.getLongitude()));
-				createUserMarker(gps_conn.getLatitude(), gps_conn.getLongitude());
-		}
-		else
-		{
-			//mv.getModel().mapViewPosition.setCenter(new LatLong(85,27));
-			showSettingsAlert();
-		}
-
+		mv.getModel().mapViewPosition.setCenter(new LatLong(gps_conn.getLatitude(), gps_conn.getLongitude()));
+		createUserMarker(gps_conn.getLatitude(), gps_conn.getLongitude());
         if(mydata!=null)
     	{
         	Log.i("mydata", "here");
