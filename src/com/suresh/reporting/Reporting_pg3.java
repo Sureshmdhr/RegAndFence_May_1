@@ -119,7 +119,17 @@ public class Reporting_pg3 extends Activity
 								{
 									EditText new_item=(EditText)view.findViewById(R.id.new_item);
 									String new_item_string=new_item.getText().toString();
-									if(new_item_string.equals(""))
+								    LayoutInflater inflater = Reporting_pg3.this.getLayoutInflater();
+								    final View view1 = inflater.inflate(R.layout.need_choose, null);
+									EditText et_count = (EditText)view1.findViewById(R.id.count);
+									EditText et_supplied =(EditText)view1.findViewById(R.id.supplied);
+									if(positions.contains(pos))
+									{
+										List<NameValuePair> needs = adapter.getKeyvalue(positions.get(pos));
+										et_count.setText(needs.get(0).getValue());
+										et_supplied.setText(needs.get(2).getValue());
+									}
+								    if(new_item_string.equals(""))
 										Toast.makeText(getApplicationContext(), "Empty Field", Toast.LENGTH_SHORT).show();
 									else
 									{
@@ -170,7 +180,6 @@ public class Reporting_pg3 extends Activity
 									EditText et_count = (EditText)view.findViewById(R.id.count);
 									EditText et_supplied =(EditText)view.findViewById(R.id.supplied);
 								//	EditText et_describe =(EditText)view.findViewById(R.id.describe);
-									
 									String count = et_count.getText().toString();
 									String supplied = et_supplied.getText().toString();
 									//String unit = et_unit.getText().toString();

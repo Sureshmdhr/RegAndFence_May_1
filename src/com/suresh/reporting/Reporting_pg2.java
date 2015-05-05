@@ -115,7 +115,15 @@ public class Reporting_pg2 extends Activity
 								{
 									EditText new_item=(EditText)view.findViewById(R.id.new_item);
 									String new_item_string=new_item.getText().toString();
-									if(new_item_string.equals(""))
+								    LayoutInflater inflater = Reporting_pg2.this.getLayoutInflater();
+								    final View view1 = inflater.inflate(R.layout.impact_choose, null);
+									EditText et_count = (EditText)view1.findViewById(R.id.count);
+									if(positions.contains(pos))
+									{
+										List<NameValuePair> needs = adapter.getKeyvalue(positions.get(pos));
+										et_count.setText(needs.get(0).getValue());
+									}
+								if(new_item_string.equals(""))
 										Toast.makeText(getApplicationContext(), "Empty Field", Toast.LENGTH_SHORT).show();
 									else
 									{
