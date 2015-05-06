@@ -208,7 +208,7 @@ public class circlefragment  extends Activity{
 		protected boolean GeofenceNameExists() 
 		{
 			Receiver connect =new Receiver();
-			connect.setPath("selectgeofencename.php");
+			connect.setPath("/polygon1/selectgeofencename.php");
 			connect.addNameValuePairs("value1", name.getText().toString().toLowerCase());
 			AsyncTask<Void, Void, String> output = connect.execute(new Void[0]);
 			String result = null;
@@ -234,7 +234,7 @@ public class circlefragment  extends Activity{
 		protected void sentdatatocreatecircle() 
 		{
 			Receiver connect = new Receiver(this);
-			connect.setPath("circlecreate.php");
+			connect.setPath("/polygon1/circlecreate.php");
 			connect.addNameValuePairs("value1", name.getText().toString().toLowerCase());
 			connect.addNameValuePairs("value2",lgt.getText().toString());
 			connect.addNameValuePairs("value3", lat.getText().toString());

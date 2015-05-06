@@ -280,7 +280,7 @@ public class userpage extends BaseActivity implements AdapterView.OnItemClickLis
 
 	protected void ChangeStatusPost(String string, String status2) {
 		Receiver connect=new Receiver(userpage.this);
-		connect.setPath("geofencestatus.php");
+		connect.setPath("/polygon1/geofencestatus.php");
 		connect.addNameValuePairs("value1", string);
 		connect.addNameValuePairs("value2", status2);
 		AsyncTask<Void, Void, String> output = connect.execute(new Void[0]);
@@ -365,7 +365,7 @@ public class userpage extends BaseActivity implements AdapterView.OnItemClickLis
 	private void deletefence(String fencename)
 	{
 		Receiver connect=new Receiver(userpage.this);
-		connect.setPath("deletefence.php");
+		connect.setPath("/polygon1/deletefence.php");
 		connect.addNameValuePairs("value1", fencename);
 		AsyncTask<Void, Void, String> output = connect.execute(new Void[0]);
 		try {
@@ -392,7 +392,7 @@ public class userpage extends BaseActivity implements AdapterView.OnItemClickLis
 	public String postmyLocation(String lat, String lgt)
 	{
 		Receiver connect=new Receiver(userpage.this);
-		connect.setPath("postlocation.php");
+		connect.setPath("/polygon1/postlocation.php");
 		connect.addNameValuePairs("value1", lat);
 		connect.addNameValuePairs("value2",lgt);
 		connect.addNameValuePairs("value3", uname);

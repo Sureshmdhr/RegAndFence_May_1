@@ -12,7 +12,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -22,14 +21,12 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,8 +41,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.suresh.form.R;
-import com.suresh.form.RegisterActivity;
 import com.suresh.menus.UserMenuActivity;
 import com.suresh.network.StringReceiver;
 
@@ -55,7 +50,6 @@ public class FileCache extends UserMenuActivity {
 	private String file_name="notification";
 	String photoname;
 	Context mContext;
-	String port=RegisterActivity.port;
 	private List<? extends NameValuePair> nameValuePairs;
 	public FileCache(Context context){
 		   this.mContext=context;
@@ -131,7 +125,7 @@ public class FileCache extends UserMenuActivity {
 	 
 		public String uploadphotousingmultipart(File file) throws Exception 
 		{
-	        String url = port+"/girc/dmis/api/file_management/upload/file";
+	        String url = StringReceiver.host+"/girc/dmis/api/file_management/upload/file";
 	        HttpClient client = new DefaultHttpClient();
 	        HttpPost post = new HttpPost(url);
 	       // post.addHeader("Content-Type", "application/json");
@@ -252,25 +246,36 @@ public class FileCache extends UserMenuActivity {
 				   try 
 				   {
 					   String result=uploadphotousingmultipart(getFile(photo_name));
+					   Log.i("upload_photo", result);
 					   String gallery="{\"uploaded_temp\":"+result+"}";
 					  // json.put("ReportItemMultimedia", result);
+					   json.remove("Photo");
 					   json.put("photo",result);
+					   upload_status=postData(json.toString());
+					   if(upload_status&&!photo_name.equals(""))
+					   {
+						   Log.i("post", json.toString());
+						   deletefile(photo_name);
+					   }
+
 				   }
 				   catch (Exception e) 
 				   {
+					   showerrordialog("Server Fail", "Server Under maintainance!Please Try Again Later");
 					   e.printStackTrace();
+					   upload_status=false;
 				   }
 			   }
 			   else
 			   {
 				   Log.i("Photo", "no");
-			   }
-			   json.remove("Photo");
-			   Log.i("post", json.toString());
-			   upload_status=postData(json.toString());
-			   if(upload_status&&!photo_name.equals(""))
-			   {
-					deletefile(photo_name);
+				   json.remove("Photo");
+				   upload_status=postData(json.toString());
+				   if(upload_status&&!photo_name.equals(""))
+				   {
+					   Log.i("post", json.toString());
+					   deletefile(photo_name);
+				   }
 			   }
 
 		   }
@@ -287,7 +292,6 @@ public class FileCache extends UserMenuActivity {
 	{
 		StringReceiver connect=new StringReceiver(mContext);
 		Log.i("data_post", data);
-		connect.setHost(port);
 		connect.setPath("/girc/dmis/api/rapid_assessment/report-items/ReportItemIncident/create");
 		JSONObject my_report = null;
 		try
@@ -309,7 +313,16 @@ public class FileCache extends UserMenuActivity {
 				obj = new JSONObject(result);
 				Log.i("res", obj.toString());
 				String error=obj.getString("status");
-				if(error.equals("0"))
+				if(error.equals("success"))
+				{
+					upload_success=true;
+					
+				}
+				else if(error.equals("server_fail"))
+				{
+					showerrordialog("Server Fail", obj.getString("message"));
+				}
+				else if(error.equals("0"))
 				{
 					String error_messages="";
 					JSONArray obj2=new JSONArray(obj.getString("errors"));
@@ -324,7 +337,7 @@ public class FileCache extends UserMenuActivity {
 				}
 				else
 				{
-					upload_success=true;
+					upload_success=false;
 				}
 			} 
 			catch (JSONException e) 
@@ -347,9 +360,9 @@ public class FileCache extends UserMenuActivity {
 	public void showerrordialog(String title, String message)
 	{
 		AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
-		alertDialog.setTitle("Error on Report of "+title);
+		alertDialog.setTitle(title);
 		alertDialog.setMessage(message);
-		alertDialog.setIcon(R.drawable.delete);
+		//alertDialog.setIcon(R.drawable.delete);
 		alertDialog.setButton("OK", new DialogInterface.OnClickListener() 
 		{
 			public void onClick(final DialogInterface dialog, final int which) 
@@ -365,7 +378,7 @@ public class FileCache extends UserMenuActivity {
 		    AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
 		alertDialog.setTitle("Success");
 		alertDialog.setMessage(message);
-		alertDialog.setIcon(R.drawable.tick);
+//		alertDialog.setIcon(R.drawable.tick);
 		alertDialog.setButton("OK", new DialogInterface.OnClickListener() 
 		{
 			public void onClick(final DialogInterface dialog, final int which) 

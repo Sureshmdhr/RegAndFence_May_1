@@ -57,10 +57,9 @@ public class NavDrawerListAdapter extends BaseAdapter {
         	imgIcon.setImageResource(navDrawerItems.get(position).getIcon());
         	imgIcon.getLayoutParams().height=256;
         	imgIcon.getLayoutParams().width=256;
-        	
         	txtTitle.setText(navDrawerItems.get(position).getTitle());
-        	txtTitle.setGravity(Gravity.END);
-        	txtTitle.setGravity(50);
+        	txtTitle.setGravity(Gravity.CENTER_HORIZONTAL);
+        	//txtTitle.setGravity(50);
         	//RelativeLayout relativeLayout= (RelativeLayout) convertView.findViewById(R.id.drawer_id);   
         }
 		else

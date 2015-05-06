@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -21,7 +22,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -34,7 +34,6 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.suresh.extras.GPSTracker;
 import com.suresh.extras.GridAdapter;
 import com.suresh.form.R;
 
@@ -46,7 +45,6 @@ public class Reporting_pg3 extends Activity
 	private ImageButton img_prev;
 	private TextView skip,need_title;
 	private AlertDialog alertDialog;
-	private ArrayList<Integer> positions=new ArrayList<Integer>();
 	protected JSONArray need_Array;
 	private String parent_name;
 	private ArrayList<String> impact_array=new ArrayList<String>();
@@ -57,6 +55,12 @@ public class Reporting_pg3 extends Activity
 	private SimpleAdapter list_adapter;
 	public static JSONObject reporting;
 	private HashMap<String, Object> hm;
+	private String user_id;
+	private String disaster_event;
+	public ArrayList<String> impact_names=new ArrayList<String>();
+	public ArrayList<String> impact_counts=new ArrayList<String>();
+	private ArrayList<String> impact_ids=new ArrayList<String>();
+	private ArrayList<String> impact_supplied=new ArrayList<String>();
 
 	@SuppressLint("InflateParams")
 	protected void onCreate(Bundle savedInstanceState)
@@ -74,7 +78,8 @@ public class Reporting_pg3 extends Activity
 			parent_name=reporting.getJSONObject("ReportItemIncident").getString("item_name");
 			latitude=reporting.getJSONObject("ReportItemIncident").getString("latitude");
 			longitude=reporting.getJSONObject("ReportItemIncident").getString("longitude");
-			Log.i("rep_2", reporting.toString());
+			user_id=reporting.getJSONObject("ReportItemIncident").getString("user_id");
+			disaster_event=reporting.getJSONObject("ReportItemIncident").getString("event");
 		}
 		catch (JSONException e1) 
 		{
@@ -93,6 +98,30 @@ public class Reporting_pg3 extends Activity
 			Log.i("need", impact_array.get(i));
 		}
 		adapter=new GridAdapter(Reporting_pg3.this,impact_array);
+		if(reporting.has("ReportItemNeed"))
+		{
+			Log.i("Impact", "yes");
+			try {
+				JSONObject quetionMark = reporting.getJSONObject("ReportItemNeed");
+				Iterator keys = quetionMark.keys();
+				while(keys.hasNext())
+				{
+				    String currentDynamicKey = (String)keys.next();
+				    int old_pos = Integer.valueOf(currentDynamicKey);
+				    JSONObject currentDynamicValue = quetionMark.getJSONObject(currentDynamicKey);
+				    impact_ids.add(currentDynamicKey);
+				    impact_names.add(currentDynamicValue.getString("item_name"));
+				    impact_counts.add(currentDynamicValue.getString("magnitude"));
+				    impact_supplied.add(currentDynamicValue.getString("supplied_per_person"));
+				}
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		need_gridview.setAdapter(adapter);
 		need_gridview.setOnItemClickListener(new OnItemClickListener()
 		{
@@ -123,12 +152,6 @@ public class Reporting_pg3 extends Activity
 								    final View view1 = inflater.inflate(R.layout.need_choose, null);
 									EditText et_count = (EditText)view1.findViewById(R.id.count);
 									EditText et_supplied =(EditText)view1.findViewById(R.id.supplied);
-									if(positions.contains(pos))
-									{
-										List<NameValuePair> needs = adapter.getKeyvalue(positions.get(pos));
-										et_count.setText(needs.get(0).getValue());
-										et_supplied.setText(needs.get(2).getValue());
-									}
 								    if(new_item_string.equals(""))
 										Toast.makeText(getApplicationContext(), "Empty Field", Toast.LENGTH_SHORT).show();
 									else
@@ -179,10 +202,8 @@ public class Reporting_pg3 extends Activity
 								{
 									EditText et_count = (EditText)view.findViewById(R.id.count);
 									EditText et_supplied =(EditText)view.findViewById(R.id.supplied);
-								//	EditText et_describe =(EditText)view.findViewById(R.id.describe);
 									String count = et_count.getText().toString();
 									String supplied = et_supplied.getText().toString();
-									//String unit = et_unit.getText().toString();
 									if(count.equals("")&&supplied.equals(""))
 									{
 										Toast.makeText(getApplicationContext(), "Empty Fields", Toast.LENGTH_SHORT).show();
@@ -193,21 +214,37 @@ public class Reporting_pg3 extends Activity
 											count="0";
 										else if(supplied.equals(""))
 											supplied="0";
-										adapter.setKeyvalue(pos, "count", count);
-										adapter.setKeyvalue(pos,"name",adapter.getItem(pos));
-										adapter.setKeyvalue(pos, "supplied", supplied);
-									//	adapter.setKeyvalue(pos, "describe", describe);
-										if(!positions.contains(pos))
-											positions.add(pos);
+
+										if(impact_ids.contains(String.valueOf(pos)))
+										{
+											for(int j=0;j<impact_ids.size();j++)
+											{
+												if(impact_ids.get(j).equals(String.valueOf(pos)))
+												{
+													impact_names.set(j, adapter.getItem(pos));
+													impact_counts.set(j, count);
+													impact_supplied.set(j, supplied);
+													break;
+												}
+											}
+										}
+										else
+										{
+											impact_names.add(adapter.getItem(pos));
+											impact_ids.add(String.valueOf(pos));
+											impact_counts.add(count);
+											impact_supplied.add(supplied);
+										}
+										
 										dialog.dismiss();
 										
 										aList.clear();
-										for(int i=0;i<positions.size();i++)
+										for(int i=0;i<impact_ids.size();i++)
 										{
-											List<NameValuePair> needs = adapter.getKeyvalue(positions.get(i));
+											Log.i("needs___", impact_ids.get(i)+"\t"+impact_names.get(i));
 											hm = new HashMap<String,Object>();
-								            hm.put("title", needs.get(1).getValue());
-								            hm.put("message","Need:For "+needs.get(0).getValue()+"Person\nSupplied: For "+needs.get(2).getValue()+"Person");
+								            hm.put("title", impact_names.get(i));
+								            hm.put("message","\tNeed:For "+impact_counts.get(i)+" Person\n\tSupplied: For "+impact_supplied.get(i)+" Person");
 								            aList.add(hm);
 								        }
 										
@@ -225,55 +262,46 @@ public class Reporting_pg3 extends Activity
 
 		
 		my_selected_list=(ListView)findViewById(R.id.my_selected_list);
-		for(int i=0;i<positions.size();i++)
+
+		aList.clear();
+		for(int i=0;i<impact_ids.size();i++)
 		{
-			List<NameValuePair> needs = adapter.getKeyvalue(positions.get(i));
 			hm = new HashMap<String,Object>();
-            hm.put("title", needs.get(1).getValue());
-            hm.put("message","Need:"+needs.get(0).getValue()+"\nSupplied"+needs.get(2).getValue());
+            hm.put("title", impact_names.get(i));
+            hm.put("message","\tNeed:For "+impact_counts.get(i)+" Person\n\tSupplied: For "+impact_supplied.get(i)+" Person");
             aList.add(hm);
         }
+		
         String[] from = {"title","message" };
-        int[] to = { R.id.noti_title, R.id.noti_message};
+        int[] to = { R.id.repo_title, R.id.repo_message};
 
-        list_adapter = new SimpleAdapter(this, aList, R.layout.all_noti_sublist, from, to)
-        {
-			public View getView(final int position, View convertView, ViewGroup parent)
-			{
-        		final View row =  super.getView(position, convertView, parent);	
-        		View delete = row.findViewById(R.id.noti_delete);
-        		delete.setVisibility(View.GONE);
-				return row;
-			}
-        };
+        list_adapter = new SimpleAdapter(this, aList, R.layout.report_noti_sublist, from, to);
    		my_selected_list.setAdapter(list_adapter);
+		list_adapter.notifyDataSetChanged();
 
 		img_next=(ImageButton)findViewById(R.id.imageButton2);
 		img_next.setOnClickListener(new OnClickListener()
 		{
-			private JSONObject need_Object;
+			private JSONObject need_Object=null;
 
 			public void onClick(View v) 
 			{
-				if(positions.size()!=0)
-					 need_Object=new JSONObject();
-				for(int i=0;i<positions.size();i++)
+			 	 need_Object=new JSONObject();
+				for(int i=0;i<impact_ids.size();i++)
 				{
-					List<NameValuePair> needs = adapter.getKeyvalue(positions.get(i));
 					JSONObject jsonObject=new JSONObject();
 				
 					try 
 					{
-						GPSTracker gps=new GPSTracker(Reporting_pg3.this);
-						//jsonObject.put("id",i+1);
-						jsonObject.put("item_name", needs.get(1).getValue());
-						jsonObject.put("magnitude", needs.get(0).getValue());
-						jsonObject.put("supplied_per_person", needs.get(1).getValue());
+						jsonObject.put("item_name", impact_names.get(i));
+						jsonObject.put("magnitude",impact_counts.get(i));
+						jsonObject.put("supplied_per_person", impact_supplied.get(i));
 						jsonObject.put("timestamp_occurance",new FileCache(Reporting_pg3.this).getDate());
+						jsonObject.put("event", disaster_event);
 						jsonObject.put("latitude", latitude);
 						jsonObject.put("longitude",longitude);
-				//		jsonObject.put("description", needs.get(1).getValue());
-						need_Object.put(String.valueOf(i+1),jsonObject);
+						jsonObject.put("user_id",user_id);
+						need_Object.put(impact_ids.get(i),jsonObject);
 					}
 					catch (JSONException e) 
 					{
@@ -313,8 +341,45 @@ public class Reporting_pg3 extends Activity
 		img_prev=(ImageButton)findViewById(R.id.rep_upload);
 		img_prev.setOnClickListener(new OnClickListener() 
 		{
+			private JSONObject need_Object=null;
+
 			public void onClick(View arg0)
 			{
+			 	 need_Object=new JSONObject();
+				Log.i("size", impact_ids.size()+"");
+			for(int i=0;i<impact_ids.size();i++)
+				{
+					Log.i("size", impact_ids.size()+"");
+					JSONObject jsonObject=new JSONObject();
+				
+					try 
+					{
+						jsonObject.put("item_name", impact_names.get(i));
+						jsonObject.put("magnitude",impact_counts.get(i));
+						jsonObject.put("supplied_per_person", impact_supplied.get(i));
+						jsonObject.put("timestamp_occurance",new FileCache(Reporting_pg3.this).getDate());
+						jsonObject.put("event", disaster_event);
+						jsonObject.put("latitude", latitude);
+						jsonObject.put("longitude",longitude);
+						jsonObject.put("user_id",user_id);
+						Log.i("need111", jsonObject.toString());
+						need_Object.put(impact_ids.get(i),jsonObject);
+					}
+					catch (JSONException e) 
+					{
+						Log.e("error", e.toString());
+						e.printStackTrace();
+					}
+				}
+				try 
+				{
+					reporting.put("ReportItemNeed",need_Object);
+				}
+				catch (JSONException e) 
+				{
+					e.printStackTrace();
+				}
+
 				Intent intent=new Intent(getApplicationContext(),Reporting_pg2.class);
 				intent.putExtra("reporting", reporting.toString());
 				startActivity(intent);
@@ -326,6 +391,10 @@ public class Reporting_pg3 extends Activity
 		{
 			public void onClick(View arg0) 
 			{
+				if(reporting.has("ReportItemNeed"))
+				{
+					reporting.remove("ReportItemNeed");
+				}
 				Intent intent=new Intent(Reporting_pg3.this,Reporting_pg4.class);
 				FileCache fc=new FileCache(getApplicationContext());
 				try 
@@ -349,4 +418,46 @@ public class Reporting_pg3 extends Activity
 			}
 		});
 	}
+	
+	public void onBackPressed() 
+	{
+		JSONObject need_Object = null;
+		for(int i=0;i<impact_ids.size();i++)
+		{
+		 	 need_Object=new JSONObject();
+			JSONObject jsonObject=new JSONObject();
+		
+			try 
+			{
+				jsonObject.put("item_name", impact_names.get(i));
+				jsonObject.put("magnitude",impact_counts.get(i));
+				jsonObject.put("supplied_per_person", impact_supplied.get(i));
+				jsonObject.put("timestamp_occurance",new FileCache(Reporting_pg3.this).getDate());
+				jsonObject.put("event", disaster_event);
+				jsonObject.put("latitude", latitude);
+				jsonObject.put("longitude",longitude);
+				jsonObject.put("user_id",user_id);
+				need_Object.put(impact_ids.get(i),jsonObject);
+			}
+			catch (JSONException e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		try 
+		{
+			reporting.put("ReportItemNeed",need_Object);
+		}
+		catch (JSONException e) 
+		{
+			e.printStackTrace();
+		}
+
+		finish();
+		Intent intent=new Intent(getApplicationContext(), Reporting_pg2.class);
+		intent.putExtra("reporting", reporting.toString());
+		startActivity(intent);
+	}
+
+
 }

@@ -8,7 +8,7 @@ import android.os.AsyncTask;
 
 public class Receiver_Get extends AsyncTask<Void, Void, String>
 {
-	private String host = "http://116.90.239.21/polygon1/";
+	private String host = "http://116.90.239.21";
 //	private String host = "http://192.168.19.1/polygon/";
 	private String path;
 

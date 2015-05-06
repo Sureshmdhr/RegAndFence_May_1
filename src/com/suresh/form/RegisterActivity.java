@@ -33,7 +33,6 @@ public class RegisterActivity extends Activity {
 	EditText firstname,email,password,repassword; 
 	Button register;
 	String data;
-	public static String port="http://116.90.239.21";
 	String fname,eml,pass,repass;
 	StringBuilder sb;
 	private int mYear;
@@ -144,7 +143,6 @@ public class RegisterActivity extends Activity {
 	protected void postData() 
 	{
 		StringReceiver connect=new StringReceiver(this);
-		connect.setHost(port);
 		//connect.setPath("/emis/app/apis/v1/user/user/registration");
 		connect.setPath("/girc/dmis/api/user/users/register");
 		connect.setString(data);
@@ -273,7 +271,7 @@ public class RegisterActivity extends Activity {
 		// Setting Dialog Message
 		alertDialog.setMessage(message);
 		// Setting Icon to Dialog
-		alertDialog.setIcon(R.drawable.tick);
+		//alertDialog.setIcon(R.drawable.tick);
 		// Setting OK Button
 		alertDialog.setButton("OK", new DialogInterface.OnClickListener() 
 		{

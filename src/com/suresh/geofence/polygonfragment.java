@@ -184,7 +184,7 @@ public class polygonfragment extends Activity
 		// TODO Auto-generated method stub
 		Receiver connect = new Receiver(this);
 		Log.i("polygon_data", geom_sq);
-		connect.setPath("createpolygon.php");
+		connect.setPath("/polygon1/createpolygon.php");
 		connect.addNameValuePairs("value1", name.getText().toString().toLowerCase());
 	    connect.addNameValuePairs("value2", geom_sq);
 	    connect.addNameValuePairs("value3", msg.getText().toString());
@@ -213,7 +213,7 @@ public class polygonfragment extends Activity
 	protected boolean GeofenceNameExists() 
 	{
 		Receiver connect =new Receiver(this);
-		connect.setPath("selectgeofencename.php");
+		connect.setPath("/polygon1/selectgeofencename.php");
 		connect.addNameValuePairs("value1", name.getText().toString().toLowerCase());
 		AsyncTask<Void, Void, String> output = connect.execute(new Void[0]);
 		String result = null;

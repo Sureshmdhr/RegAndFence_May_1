@@ -2,6 +2,7 @@ package com.suresh.reporting;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -57,7 +58,15 @@ public class Reporting_pg2 extends Activity
 	List<HashMap<String,Object>> aList = new ArrayList<HashMap<String,Object>>();
 	private HashMap<String, Object> hm;
 	private SimpleAdapter list_adapter;
+	private String user_id;
+	private JSONObject quetionMark;
+	private Iterator keys;
+	private String disaster_event;
 	public static JSONObject reporting;
+	
+	public ArrayList<String> impact_names=new ArrayList<String>();
+	public ArrayList<String> impact_counts=new ArrayList<String>();
+	private ArrayList<String> impact_ids=new ArrayList<String>();
 	
 	@SuppressLint("InflateParams")
 	protected void onCreate(Bundle savedInstanceState)
@@ -73,7 +82,8 @@ public class Reporting_pg2 extends Activity
 			parent_name=reporting.getJSONObject("ReportItemIncident").getString("item_name");
 			latitude=reporting.getJSONObject("ReportItemIncident").getString("latitude");
 			longitude=reporting.getJSONObject("ReportItemIncident").getString("longitude");
-			Log.i("rep_2", reporting.toString());
+			user_id=reporting.getJSONObject("ReportItemIncident").getString("user_id");
+			disaster_event=reporting.getJSONObject("ReportItemIncident").getString("event");
 		}
 		catch (JSONException e1) 
 		{
@@ -88,7 +98,37 @@ public class Reporting_pg2 extends Activity
 		impact_array = fileCache.getFromFile(parent_name,"incident","impact");
 		impact_array.add("ADD NEW");
 			
+		Log.i("reporting", reporting.toString());
 		adapter=new GridAdapter(Reporting_pg2.this,impact_array);
+		if(reporting.has("ReportItemImpact"))
+		{
+			Log.i("Impact", "yes");
+			try {
+				quetionMark=reporting.getJSONObject("ReportItemImpact");
+				keys=quetionMark.keys();
+				while(keys.hasNext())
+				{
+				    String currentDynamicKey = (String)keys.next();
+				    int old_pos = Integer.valueOf(currentDynamicKey);
+				    JSONObject currentDynamicValue = quetionMark.getJSONObject(currentDynamicKey);
+				    
+				    impact_ids.add(currentDynamicKey);
+				    impact_names.add(currentDynamicValue.getString("item_name"));
+				    impact_counts.add(currentDynamicValue.getString("magnitude"));
+				
+				}
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else
+		{
+			quetionMark=new JSONObject();
+		}
 		impact_gridview.setAdapter(adapter);
 		impact_gridview.setOnItemClickListener(new OnItemClickListener() 
 		{
@@ -118,12 +158,7 @@ public class Reporting_pg2 extends Activity
 								    LayoutInflater inflater = Reporting_pg2.this.getLayoutInflater();
 								    final View view1 = inflater.inflate(R.layout.impact_choose, null);
 									EditText et_count = (EditText)view1.findViewById(R.id.count);
-									if(positions.contains(pos))
-									{
-										List<NameValuePair> needs = adapter.getKeyvalue(positions.get(pos));
-										et_count.setText(needs.get(0).getValue());
-									}
-								if(new_item_string.equals(""))
+									if(new_item_string.equals(""))
 										Toast.makeText(getApplicationContext(), "Empty Field", Toast.LENGTH_SHORT).show();
 									else
 									{
@@ -171,35 +206,54 @@ public class Reporting_pg2 extends Activity
 							public void onClick(View arg0) 
 							{
 								EditText et_count = (EditText)view.findViewById(R.id.count);
-								//EditText et_unit =(EditText)view.findViewById(R.id.unit);
-								//EditText et_describe =(EditText)view.findViewById(R.id.describe);
-								
 								String count = et_count.getText().toString();
-								//String describe = et_describe.getText().toString();
-								//String unit = et_unit.getText().toString();
+
 								if(count.equals(""))
 								{
 									Toast.makeText(getApplicationContext(), "Empty Fields", Toast.LENGTH_SHORT).show();
 								}
 								else
 								{
-									adapter.setKeyvalue(pos, "count", count);
+									if(impact_ids.contains(String.valueOf(pos)))
+									{
+										for(int j=0;j<impact_ids.size();j++)
+										{
+											if(impact_ids.get(j).equals(String.valueOf(pos)))
+											{
+												impact_names.set(j, adapter.getItem(pos));
+												impact_counts.set(j, count);
+												break;
+											}
+										}
+									}
+									else
+									{
+										impact_names.add(adapter.getItem(pos));
+										impact_ids.add(String.valueOf(pos));
+										impact_counts.add(count);
+									}
+/*									adapter.setKeyvalue(pos, "count", count);
 									adapter.setKeyvalue(pos,"name",adapter.getItem(pos));
-									//adapter.setKeyvalue(pos, "unit", unit);
-									//adapter.setKeyvalue(pos, "describe", describe);
 									if(!positions.contains(pos))
 										positions.add(pos);
-									dialog.dismiss();
+*/									dialog.dismiss();
 									
 									aList.clear();
-									for(int i=0;i<positions.size();i++)
+									for(int i=0;i<impact_ids.size();i++)
 									{
-										List<NameValuePair> impacts = adapter.getKeyvalue(positions.get(i));
-										hm = new HashMap<String,Object>();
+										
+										Log.i("position", impact_ids.get(i)+"");
+										Log.i("name", impact_names.get(i));
+										Log.i("count", impact_counts.get(i));
+										/*										
 							            hm.put("title", impacts.get(1).getValue());
-							            hm.put("message","Count:"+impacts.get(0).getValue());
+							            hm.put("message","\tCount:"+impacts.get(0).getValue());
 							            aList.add(hm);
-							        }
+*/								        hm = new HashMap<String,Object>();
+										hm.put("title", impact_names.get(i));
+										hm.put("message", "\tCount:"+impact_counts.get(i));
+										aList.add(hm);
+										}
 									
 									list_adapter.notifyDataSetChanged();
 
@@ -215,27 +269,26 @@ public class Reporting_pg2 extends Activity
 		});
 		
 		my_selected_list=(ListView)findViewById(R.id.my_selected_list);
-		for(int i=0;i<positions.size();i++)
+		aList.clear();
+		for(int i=0;i<impact_ids.size();i++)
 		{
+/*										Log.i("position", positions.get(i)+"");
 			List<NameValuePair> impacts = adapter.getKeyvalue(positions.get(i));
-			hm = new HashMap<String,Object>();
+			Log.i("name", impacts.get(1).getValue());
+			Log.i("count", impacts.get(0).getValue());
             hm.put("title", impacts.get(1).getValue());
-            hm.put("message",impacts.get(0).getValue());
+            hm.put("message","\tCount:"+impacts.get(0).getValue());
             aList.add(hm);
-        }
-        String[] from = {"title","message" };
-        int[] to = { R.id.noti_title, R.id.noti_message};
-
-        list_adapter = new SimpleAdapter(this, aList, R.layout.all_noti_sublist, from, to)
-        {
-			public View getView(final int position, View convertView, ViewGroup parent)
-			{
-        		final View row =  super.getView(position, convertView, parent);	
-        		View delete = row.findViewById(R.id.noti_delete);
-        		delete.setVisibility(View.GONE);
-				return row;
+*/							        
+			hm = new HashMap<String,Object>();
+			hm.put("title", impact_names.get(i));
+			hm.put("message", "\tCount:"+impact_counts.get(i));
+			aList.add(hm);
 			}
-        };
+        String[] from = {"title","message"};
+        int[] to = { R.id.repo_title, R.id.repo_message};
+
+        list_adapter = new SimpleAdapter(this, aList, R.layout.report_noti_sublist, from, to);
    		my_selected_list.setAdapter(list_adapter);
 		
 		img_next=(ImageButton)findViewById(R.id.imageButton2);
@@ -246,24 +299,21 @@ public class Reporting_pg2 extends Activity
 
 			public void onClick(View arg0) 
 			{
-				if(positions.size()!=0)
-				{
 					 impact_Array=new JSONArray();
 				 	 impact_Object=new JSONObject();
-				 	 for(int i=0;i<positions.size();i++)
+				 	 for(int i=0;i<impact_ids.size();i++)
 					{
-						List<NameValuePair> impacts = adapter.getKeyvalue(positions.get(i));
 						JSONObject jsonObject=new JSONObject();
 						try 
 						{
-							GPSTracker gps=new GPSTracker(Reporting_pg2.this);
-							//jsonObject.put("id",i+1);
-							jsonObject.put("item_name", impacts.get(1).getValue());
-							jsonObject.put("magnitude", impacts.get(0).getValue());
+							jsonObject.put("item_name", impact_names.get(i));
+							jsonObject.put("magnitude", impact_counts.get(i));
 							jsonObject.put("timestamp_occurance",new FileCache(Reporting_pg2.this).getDate());
 							jsonObject.put("latitude", latitude);
+							jsonObject.put("event", disaster_event);
 							jsonObject.put("longitude",longitude);
-							impact_Object.put(String.valueOf(i+1),jsonObject);
+							jsonObject.put("user_id",user_id);
+							impact_Object.put(impact_ids.get(i),jsonObject);
 							impact_Array.put(jsonObject);
 						}
 						catch (JSONException e) 
@@ -271,7 +321,6 @@ public class Reporting_pg2 extends Activity
 							e.printStackTrace();
 						}
 					}
-				}
 				try 
 				{
 					reporting.put("ReportItemImpact",impact_Object);
@@ -281,6 +330,7 @@ public class Reporting_pg2 extends Activity
 					e.printStackTrace();
 				}
 
+				Log.i("to_rep3", reporting.toString());
 				Intent intent=new Intent(getApplicationContext(), Reporting_pg3.class);
 				intent.putExtra("reporting", reporting.toString());
 				startActivity(intent);
@@ -303,6 +353,10 @@ public class Reporting_pg2 extends Activity
 		{
 			public void onClick(View arg0) 
 			{
+				if(reporting.has("ReportItemImpact"))
+				{
+					reporting.remove("ReportItemImpact");
+				}
 				Intent intent=new Intent(getApplicationContext(), Reporting_pg3.class);
 				intent.putExtra("reporting", reporting.toString());
 				startActivity(intent);

@@ -108,7 +108,7 @@ public class myfence extends UserMenuActivity
 	
 	private ArrayList<String> getMyData(String string) {
 		Receiver connect = new Receiver(this);
-		connect.setPath("activegeofence.php");
+		connect.setPath("/polygon1/activegeofence.php");
 		connect.addNameValuePairs("value1", uname);
 		AsyncTask<Void, Void, String> output=connect.execute(new Void[0]);
 	    String result=null;
@@ -202,7 +202,7 @@ public class myfence extends UserMenuActivity
 	private ArrayList<String> checkinsidepolygon(String string,String row)
 	{
 		Receiver connect = new Receiver(this);
-		connect.setPath("check_my_polygon_inside_polygon.php");
+		connect.setPath("/polygon1/check_my_polygon_inside_polygon.php");
 		connect.addNameValuePairs("value1", string);
 		AsyncTask<Void, Void, String> output=connect.execute(new Void[0]);
 	    String result=null;

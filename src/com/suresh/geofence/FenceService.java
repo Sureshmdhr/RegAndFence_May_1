@@ -174,7 +174,7 @@ public class FenceService
 	private String checkinsidepolygon(String string) 
 	{
 		Receiver connect=new Receiver(mContext);
-		connect.setPath("check_my_polygon_inside_polygon.php");
+		connect.setPath("/polygon1/check_my_polygon_inside_polygon.php");
 		connect.addNameValuePairs("value1", string);
 		AsyncTask<Void, Void, String> output = connect.execute(new Void[0]);
 		String result=null;
@@ -242,7 +242,7 @@ public class FenceService
         String lt = String.valueOf(latitude);
         String lg = String.valueOf(longitude);
 		Receiver connect=new Receiver(mContext);
-		connect.setPath("check_inside_polygon.php");
+		connect.setPath("/polygon1/check_inside_polygon.php");
 		connect.addNameValuePairs("value1", lg);
 		connect.addNameValuePairs("value2",lt);
 		connect.addNameValuePairs("value3", current_fence);

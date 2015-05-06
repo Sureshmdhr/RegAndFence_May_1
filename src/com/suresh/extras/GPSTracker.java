@@ -20,6 +20,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.suresh.reporting.Reporting_pg1;
 import com.suresh.reporting.Reporting_pg4;
  
 public class GPSTracker extends Service implements LocationListener {
@@ -49,13 +50,14 @@ public class GPSTracker extends Service implements LocationListener {
     protected LocationManager locationManager;
 
 	private ProgressDialog mProgressDialog;
+
+	private int i;
  
     public GPSTracker(Context context) {
     	
         this.mContext = context;
         getLocation();
-        Log.i("loc","");
-        Log.i("loc",""+getLocation().getLatitude());
+        i=1;
     }
     
     public GPSTracker()
@@ -85,7 +87,7 @@ public class GPSTracker extends Service implements LocationListener {
                 // if GPS Enabled get lat/long using GPS Services
                 if (isGPSEnabled) {
             		mProgressDialog = new ProgressDialog(mContext);
-            		mProgressDialog.setMessage("Please Wait for Satellites...\nJust 30 seconds");
+            		mProgressDialog.setMessage("Please Wait for Satellites...\n 15 seconds");
             		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 	if(mContext.getClass().getSimpleName().equals("Reporting_pg1"))
                 	{
@@ -112,14 +114,28 @@ public class GPSTracker extends Service implements LocationListener {
                         Log.d("GPS Enabled", "GPS Enabled");                          
                         if (location == null) 
                         {
+
                             if (locationManager != null) 
                             {
                                 location = locationManager
                                         .getLastKnownLocation(LocationManager.GPS_PROVIDER);
                                 if(location!=null)
                                 {
+                                	if(mContext.getClass().getSimpleName().equals("Reporting_pg1"))
+                                	{
+                                		mProgressDialog.setCancelable(false);
+                                    	mProgressDialog.show();
+                                    	new Handler().postDelayed(new Runnable() {
+                							
+                							public void run() 
+                							{
+                								mProgressDialog.dismiss();
+                							}
+                						}, 15000);
+                                	}
+                                	else
+                                		mProgressDialog.dismiss();
                                 	Log.i("loc", "yes");
-                                	mProgressDialog.dismiss();
                                 	latitude = location.getLatitude();
                                 	longitude = location.getLongitude();
                                 	Log.e("loc_gps_not_null", location.getLatitude()+"\n"+location.getLongitude());
@@ -295,7 +311,8 @@ public class GPSTracker extends Service implements LocationListener {
         Log.i("GPS", String.valueOf(satellites) + " Used In Last Fix ("+satellitesInFix+")"); 
     }
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationChanged(Location location) 
+    {
     	this.location=location;
     }
  

@@ -35,6 +35,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
@@ -89,6 +90,7 @@ public class Reporting_pg1 extends Activity implements LocationListener
 	private TextView lgts;
 	private ProgressDialog mProgressDialog;
 	private String user_id;
+	private Handler handler;
 
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -161,7 +163,8 @@ public class Reporting_pg1 extends Activity implements LocationListener
 				{
 					try 
 					{
-						incident.put("item_name", disaster_incident);
+							incident.put("item_name", disaster_incident);
+							incident.put("event", disaster_event);
 							incident.put("address", "");
 							incident.put("latitude", usermarker.getLatLong().latitude);
 							incident.put("longitude",usermarker.getLatLong().longitude);
@@ -237,6 +240,7 @@ public class Reporting_pg1 extends Activity implements LocationListener
 											incident.put("class_name",  radioGenderButton.getText());
 											incident.put("address", "");
 											incident.put("latitude", usermarker.getLatLong().latitude);
+											incident.put("event", disaster_event);
 											incident.put("longitude",usermarker.getLatLong().longitude);
 											incident.put("timestamp_occurance",new FileCache(Reporting_pg1.this).getDate());
 											incident.put("description", "no description");
@@ -544,8 +548,15 @@ public class Reporting_pg1 extends Activity implements LocationListener
         ((TileRendererLayer) this.tileRendererLayer).setXmlRenderTheme(InternalRenderTheme.OSMARENDER);
         my_map.getLayerManager().getLayers().add(tileRendererLayer);
         gps = new GPSTracker(Reporting_pg1.this);
-        my_map.getModel().mapViewPosition.setCenter(new LatLong(gps.getLatitude(), gps.getLongitude()));
-        createUserMarker(gps.getLatitude(), gps.getLongitude());
+        if(gps.canGetLocation())
+        {
+ 			my_map.getModel().mapViewPosition.setCenter(new LatLong(gps.getLatitude(), gps.getLongitude()));
+        	createUserMarker(gps.getLatitude(), gps.getLongitude());
+        }
+        else
+        {
+        	gps.showSettingsAlert();
+        }
 	}
 	
 		private void createUserMarker(double paramDouble1, double paramDouble2)
@@ -593,18 +604,24 @@ public class Reporting_pg1 extends Activity implements LocationListener
 	public void onLocationChanged(Location location) 
 	{
 		createUserMarker(location.getLatitude(), location.getLongitude());
+		my_map.getModel().mapViewPosition.setCenter(new LatLong(location.getLatitude(), location.getLongitude()));
 	}
 
 	@Override
-	public void onProviderDisabled(String arg0) 
+	public void onProviderDisabled(String provider) 
 	{
-		
+		Toast.makeText(getApplicationContext(),
+            "Provider disabled: " + provider, Toast.LENGTH_SHORT)
+            .show();
 	}
 
-	@Override
-	public void onProviderEnabled(String arg0)
-	{
-	}
+    @Override
+    public void onProviderEnabled(String provider) {
+    	Toast.makeText(getApplicationContext(),
+            "Provider enabled: " + provider, Toast.LENGTH_SHORT)
+            .show();
+}
+
 
 	@Override
 	public void onStatusChanged(String arg0, int arg1, Bundle arg2) 

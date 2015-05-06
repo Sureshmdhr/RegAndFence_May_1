@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/LinearLayout1"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="5dp"
@@ -8,8 +8,11 @@
     android:orientation="vertical" >
 
     <LinearLayout
+        android:id="@+id/llyt1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/llyt2"
+        android:layout_alignParentTop="true"
         android:orientation="vertical" >
 
         <TextView
@@ -32,32 +35,32 @@
             android:textSize="18sp"
             android:typeface="sans" />
 
-        <GridView
-            android:id="@+id/impact_gridView"
+            <GridView
+                android:id="@+id/impact_gridView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:horizontalSpacing="10dp"
+                android:numColumns="3"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="10dp" >
+            </GridView>
+
+        <ListView
+            android:id="@+id/my_selected_list"
             android:layout_width="match_parent"
-            android:layout_height="248dp"
-            android:layout_margin="10dp"
-            android:horizontalSpacing="10dp"
-            android:numColumns="3"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="10dp" >
-        </GridView>
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:dividerHeight="2dp" >
+        </ListView>
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/my_selected_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:dividerHeight="2dp" >
-
-    </ListView>
-
     <LinearLayout
-        android:id="@+id/linearlayout2"
-        android:layout_width="match_parent"
+        android:id="@+id/llyt2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true" >
 
         <ImageButton
             android:id="@+id/rep_upload"
@@ -84,4 +87,4 @@
             android:src="@drawable/next_xml" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

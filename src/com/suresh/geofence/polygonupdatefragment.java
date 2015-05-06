@@ -175,7 +175,7 @@ protected void onCreate(Bundle savedInstanceState)
 	protected void SentDatatoUpdatePolygon() 
 	{
 		Receiver connect = new Receiver(this);
-		connect.setPath("updatepolygon.php");
+		connect.setPath("/polygon1/updatepolygon.php");
 		connect.addNameValuePairs("value1", fencename);
 	    connect.addNameValuePairs("value2", geom_sq);
 	    connect.addNameValuePairs("value4", uname);

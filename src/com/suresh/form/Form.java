@@ -9,8 +9,11 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -23,7 +26,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.suresh.admin.AdminMenuActivity;
-import com.suresh.extras.GPSTracker;
 import com.suresh.extras.SessionManager;
 import com.suresh.menus.BaseActivity;
 import com.suresh.network.Receiver;
@@ -34,7 +36,6 @@ public class Form extends Activity {
 	public static EditText login_username;
 	static EditText login_password;
 	TextView v;
-	String port=RegisterActivity.port;
 	StringBuilder sb;
 	String data;
 	static int user_id;
@@ -55,7 +56,7 @@ public class Form extends Activity {
         Log.i("check",String.valueOf(session.checkLogin()));
         if(!session.checkLogin())
         {
-        	if(!new GPSTracker(getApplicationContext()).haveNetworkConnection())
+        	if(!haveNetworkConnection())
         	{
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setMessage(R.string.internet_connectivity_message)
@@ -135,7 +136,7 @@ public class Form extends Activity {
 	
 	public void postData(String data) {
 		StringReceiver connect=new StringReceiver(Form.this);
-		connect.setHost("http://116.90.239.21");
+	//	connect.setHost("http://116.90.239.21");
 		connect.setPath("/girc/dmis/api/user/users/login");
 		new JSONObject();
 		connect.setString(data);
@@ -266,7 +267,7 @@ public class Form extends Activity {
 	// Setting Dialog Message
 	alertDialog.setMessage(message);
 	// Setting Icon to Dialog
-	alertDialog.setIcon(R.drawable.tick);
+	//alertDialog.setIcon(R.drawable.tick);
 	// Setting OK Button
 	alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
 	        public void onClick(final DialogInterface dialog, final int which) {
@@ -296,4 +297,21 @@ public class Form extends Activity {
 	alertDialog.show();	                	
 
 	}
+	  public boolean haveNetworkConnection() 
+	  {
+		    boolean haveConnectedWifi = false;
+		    boolean haveConnectedMobile = false;
+		    ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+		    NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+		    for (NetworkInfo ni : netInfo) {
+		        if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+		            if (ni.isConnected())
+		                haveConnectedWifi = true;
+		        if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+		            if (ni.isConnected())
+		                haveConnectedMobile = true;
+		    }
+		    return haveConnectedWifi || haveConnectedMobile;
+		}
+
 }

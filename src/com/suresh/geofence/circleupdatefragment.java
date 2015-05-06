@@ -197,7 +197,7 @@ public class circleupdatefragment  extends AndroidMenusActivity{
 
 		protected void SentDatatoUpdateCircle() {
 			Receiver connect = new Receiver(this);
-			connect.setPath("updatecircle.php");
+			connect.setPath("/polygon1/updatecircle.php");
 			connect.addNameValuePairs("value1", fencename);
 			connect.addNameValuePairs("value2",lgt.getText().toString());
 			connect.addNameValuePairs("value3", lat.getText().toString());

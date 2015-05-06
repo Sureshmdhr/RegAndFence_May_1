@@ -211,7 +211,7 @@ public class GeofencesInList extends AdminMenuActivity implements AdapterView.On
 
 	protected void ChangeStatusPost(String string, String status2) {
 		Receiver connect=new Receiver(this);
-		connect.setPath("geofencestatus.php");
+		connect.setPath("/polygon1/geofencestatus.php");
 		connect.addNameValuePairs("value1", string);
 		connect.addNameValuePairs("value2", status2);
 		AsyncTask<Void, Void, String> output = connect.execute(new Void[0]);
@@ -302,7 +302,7 @@ public class GeofencesInList extends AdminMenuActivity implements AdapterView.On
 
 	private void deletefence(String fencename) {
 		Receiver connect=new Receiver(this);
-		connect.setPath("deletefence.php");
+		connect.setPath("/polygon1/deletefence.php");
 		connect.addNameValuePairs("value1", fencename);
 		AsyncTask<Void, Void, String> output = connect.execute(new Void[0]);
 		try {

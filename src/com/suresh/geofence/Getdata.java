@@ -29,7 +29,7 @@ public class Getdata {
 	{
 		String result = null;
 		Receiver connect=new Receiver();
-		connect.setPath("extdb3.php");
+		connect.setPath("/polygon1/extdb3.php");
 		connect.addNameValuePairs("value1", this.uname);
 		AsyncTask<Void, Void, String> output = connect.execute(new Void[0]);
 		try 
@@ -71,7 +71,7 @@ public class Getdata {
 	{
 		String result = null;
 		Receiver connect=new Receiver();
-		connect.setPath("activegeofence.php");
+		connect.setPath("/polygon1/activegeofence.php");
 		connect.addNameValuePairs("value1", "admin");
 		AsyncTask<Void, Void, String> output = connect.execute(new Void[0]);
 		try 
@@ -92,7 +92,7 @@ public class Getdata {
 	protected String getMyData() 
 	{
 		Receiver connect=new Receiver(mContext);
-		connect.setPath("activegeofence.php");
+		connect.setPath("/polygon1/activegeofence.php");
 		connect.addNameValuePairs("value1", uname);
 		AsyncTask<Void, Void, String> output = connect.execute(new Void[0]);
 		String result=null;
@@ -132,8 +132,7 @@ public class Getdata {
 	{
 		ArrayList<String> result = null;
 		Receiver connect=new Receiver();
-		connect.setHost("http://116.90.239.21/polygon1/");
-		connect.setPath("check.php");
+		connect.setPath("/polygon1/check.php");
 		AsyncTask<Void, Void, String> output = connect.execute(new Void[0]);
 		try 
 		{

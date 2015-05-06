@@ -24,7 +24,8 @@ public class About extends BaseActivity
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         about=(TextView)findViewById(R.id.about_tv);
-        about.setText("This app is to get the notification whenever you enter any incident area " +
+        about.setText("This app was developed under the collaboration of ICIMOD and Geospatial Lab (Department of Civil and Geomatics Engineering,Kathmandu University)\n\n" +
+        		"This app is to get the notification whenever you enter any incident area " +
         		"i.e. geofenced area." +
         		"\nYou can also create your own geofence and get notification if " +
         		"any disaster occurs on your geofece even if you are not inside the area." +

@@ -192,7 +192,7 @@ public class BaseActivity extends Activity {
 		actionBarDrawerToggle = new ActionBarDrawerToggle(
 				this,						/* host Activity */
 				mDrawerLayout, 				/* DrawerLayout object */
-				R.drawable.launcher,     /* nav drawer image to replace 'Up' caret */
+				R.drawable.ic_drawer,     /* nav drawer image to replace 'Up' caret */
 				R.string.app_name,       /* "open drawer" description for accessibility */
 				R.string.app_name)      /* "close drawer" description for accessibility */ 
 		{ 

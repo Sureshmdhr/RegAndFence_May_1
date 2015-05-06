@@ -373,8 +373,15 @@ public class geofences extends BaseActivity implements OnItemLongClickListener,L
         ((TileRendererLayer) this.tileRendererLayer).setXmlRenderTheme(InternalRenderTheme.OSMARENDER);
         mv.getLayerManager().getLayers().add(tileRendererLayer);
 		gps_conn=new GPSTracker(geofences.this);
-		mv.getModel().mapViewPosition.setCenter(new LatLong(gps_conn.getLatitude(), gps_conn.getLongitude()));
-		createUserMarker(gps_conn.getLatitude(), gps_conn.getLongitude());
+        if(gps_conn.canGetLocation())
+        {
+        	mv.getModel().mapViewPosition.setCenter(new LatLong(gps_conn.getLatitude(), gps_conn.getLongitude()));
+        	createUserMarker(gps_conn.getLatitude(), gps_conn.getLongitude());
+        }
+        else
+        {
+        	gps_conn.showSettingsAlert();
+        }
         if(mydata!=null)
     	{
         	Log.i("mydata", "here");

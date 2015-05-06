@@ -42,7 +42,8 @@ public class GridAdapter extends BaseAdapter {
 		this.navMenuTitles =mContext.getResources().getStringArray(title_id);
 		//this.navMenuIcons = mContext.getResources().obtainTypedArray(icon_id);	
 		allvalues=new ArrayList<List<NameValuePair>>(navMenuTitles.length);
-		while(allvalues.size() < navMenuTitles.length)allvalues.add(null);
+		while(allvalues.size() < navMenuTitles.length)
+				allvalues.add(null);
 	}
 
 	public GridAdapter(Context applicationContext,
@@ -108,7 +109,10 @@ public class GridAdapter extends BaseAdapter {
 		{
 			nameValuePair.add(new BasicNameValuePair(paramString1, paramString2));
 		}
-		allvalues.set(position, nameValuePair);
+		if(allvalues.get(position)!=null)
+			allvalues.set(position, nameValuePair);
+		else
+			allvalues.add(position, nameValuePair);
 	}
 	
 	public List<NameValuePair> getKeyvalue(int position) 
