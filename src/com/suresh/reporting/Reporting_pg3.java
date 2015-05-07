@@ -15,9 +15,12 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -458,6 +461,7 @@ public class Reporting_pg3 extends Activity
 		intent.putExtra("reporting", reporting.toString());
 		startActivity(intent);
 	}
+	
 
 
 }

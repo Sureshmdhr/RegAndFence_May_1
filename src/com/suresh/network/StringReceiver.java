@@ -19,7 +19,8 @@ import android.util.Log;
 
 public class StringReceiver extends AsyncTask<Void, Void, String>
 {
-	public static String host = "http://116.90.239.21";
+//	public static String host = "http://116.90.239.21";
+	public static String host = "http://118.91.160.230";
 	private List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 	private String path;
 	private Context mContext=null;
