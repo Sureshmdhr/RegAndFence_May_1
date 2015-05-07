@@ -80,6 +80,7 @@ import com.suresh.extras.UnzipUtil;
 import com.suresh.extras.Utils;
 import com.suresh.form.R;
 import com.suresh.menus.BaseActivity;
+import com.suresh.network.StringReceiver;
 import com.suresh.routing.GHAsyncTask;
 import com.suresh.routing.POI;
 
@@ -133,7 +134,7 @@ public class geofences extends BaseActivity implements OnItemLongClickListener,L
 	
     private ProgressDialog mProgressDialog;
 
-    String file_url="http://116.90.239.21/dfencing/girc2.zip";
+    String file_url=StringReceiver.host+"/dfencing/girc2.zip";
     String unzipLocation = Environment.getExternalStorageDirectory().getPath()+"/";
     String StorezipFileLocation =Environment.getExternalStorageDirectory().getPath() + "/DownloadedZip"; 
     String DirectoryName=Environment.getExternalStorageDirectory().getPath()+"/";
@@ -1020,10 +1021,12 @@ public class geofences extends BaseActivity implements OnItemLongClickListener,L
     		  {
     			  try
     			  {
+    				  Log.i("unzip", "start");
     				  unzip();
     			  }
     			  catch (IOException e)
     			  {
+    				  Log.e("unzip_error", e.toString());
     				  // TODO Auto-generated catch block
     				  e.printStackTrace();
     			  }
