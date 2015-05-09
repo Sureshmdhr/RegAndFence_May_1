@@ -1021,7 +1021,6 @@ public class geofences extends BaseActivity implements OnItemLongClickListener,L
     		  {
     			  try
     			  {
-    				  Log.i("unzip", "start");
     				  unzip();
     			  }
     			  catch (IOException e)
@@ -1054,7 +1053,8 @@ public class geofences extends BaseActivity implements OnItemLongClickListener,L
     	  @Override
     	  protected Boolean doInBackground(String... params) 
     	  {
-    		  String filePath = params[0];
+			  Log.i("unzip", "start");
+			  String filePath = params[0];
     		  String destinationPath = params[1];
     		  File archive = new File(filePath);
     		  try 
