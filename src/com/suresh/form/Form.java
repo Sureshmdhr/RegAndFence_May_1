@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -37,11 +38,12 @@ public class Form extends Activity {
 	static EditText login_password;
 	TextView v;
 	StringBuilder sb;
-	String data;
+	JSONObject data;
 	static int user_id;
 	String uname,upass;
 	String username;
 	SessionManager session;
+	protected ProgressDialog mProgressDialog;
 	//static String fence="http://192.168.144.1/polygon";
 	public static String fence="http://116.90.239.21/polygon1";
 
@@ -96,7 +98,7 @@ public class Form extends Activity {
 							{
 								e.printStackTrace();
 							}
-							JSONObject data=new JSONObject();
+							data=new JSONObject();
 							try 
 							{
 								data.put("LoginForm", formlogin);
@@ -105,7 +107,39 @@ public class Form extends Activity {
 							{
 								e.printStackTrace();
 							}
-							postData(data.toString());
+							if(haveNetworkConnection())
+							{
+								try
+								{
+				        		mProgressDialog=new ProgressDialog(Form.this);
+				        		mProgressDialog.setMessage(" Logging in \n Please Wait");
+				        		mProgressDialog.setProgressStyle(mProgressDialog.STYLE_SPINNER);
+				        		mProgressDialog.show();
+            	                Form.this.runOnUiThread(new Runnable() {
+									public void run() 
+									{
+	                	                try 
+	                	                {
+	    				                	postData(data.toString());
+		                	                mProgressDialog.dismiss();
+	                	                }
+	                	                catch (Exception e) 
+	                	                {
+	                	                	Log.e("exception", e.toString());
+	                	                }
+										
+									}
+								});
+								}
+								catch(Exception e)
+								{
+            	                	Log.e("exception", e.toString());
+								}
+							}
+							else
+							{
+								toaster("No Internet Connection");
+							}
 						}
 						else 
 						{

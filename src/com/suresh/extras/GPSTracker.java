@@ -105,6 +105,7 @@ public class GPSTracker extends Service implements LocationListener {
                 	{
                 		mProgressDialog.setCancelable(true);
                     	mProgressDialog.show();
+                    	mProgressDialog.dismiss();
                 	}
                 	
                     locationManager.requestLocationUpdates(
@@ -142,6 +143,67 @@ public class GPSTracker extends Service implements LocationListener {
                                 }
                             }
                         }
+                }
+                else if(isNetworkEnabled)
+                {
+            		mProgressDialog = new ProgressDialog(mContext);
+            		mProgressDialog.setMessage("Please Wait for Satellites...\n 15 seconds");
+            		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                	if(mContext.getClass().getSimpleName().equals("Reporting_pg1"))
+                	{
+                		mProgressDialog.setCancelable(false);
+                    	mProgressDialog.show();
+                    	new Handler().postDelayed(new Runnable() {
+							
+							public void run() 
+							{
+								mProgressDialog.dismiss();
+							}
+						}, 30000);
+                	}
+                	else
+                	{
+                		mProgressDialog.setCancelable(true);
+                    	mProgressDialog.show();
+                    	mProgressDialog.dismiss();
+                	}
+                	
+                    locationManager.requestLocationUpdates(
+                            LocationManager.NETWORK_PROVIDER,
+                            MIN_TIME_BW_UPDATES,
+                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                        Log.d("GPS Enabled", "GPS Enabled");                          
+                        if (location == null) 
+                        {
+
+                            if (locationManager != null) 
+                            {
+                                location = locationManager
+                                        .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                                if(location!=null)
+                                {
+                                	if(mContext.getClass().getSimpleName().equals("Reporting_pg1"))
+                                	{
+                                		mProgressDialog.setCancelable(false);
+                                    	mProgressDialog.show();
+                                    	new Handler().postDelayed(new Runnable() {
+                							
+                							public void run() 
+                							{
+                								mProgressDialog.dismiss();
+                							}
+                						}, 15000);
+                                	}
+                                	else
+                                		mProgressDialog.dismiss();
+                                	Log.i("loc", "yes");
+                                	latitude = location.getLatitude();
+                                	longitude = location.getLongitude();
+                                	Log.e("loc_gps_not_null", location.getLatitude()+"\n"+location.getLongitude());
+                                }
+                            }
+                        }
+             	
                 }
             }
         } catch (Exception e) {

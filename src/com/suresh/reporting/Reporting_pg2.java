@@ -83,7 +83,7 @@ public class Reporting_pg2 extends Activity
 			latitude=reporting.getJSONObject("ReportItemIncident").getString("latitude");
 			longitude=reporting.getJSONObject("ReportItemIncident").getString("longitude");
 			user_id=reporting.getJSONObject("ReportItemIncident").getString("user_id");
-			disaster_event=reporting.getJSONObject("ReportItemIncident").getString("event");
+			disaster_event=reporting.getJSONObject("ReportItemIncident").getString("event_name");
 		}
 		catch (JSONException e1) 
 		{
@@ -310,7 +310,7 @@ public class Reporting_pg2 extends Activity
 							jsonObject.put("magnitude", impact_counts.get(i));
 							jsonObject.put("timestamp_occurance",new FileCache(Reporting_pg2.this).getDate());
 							jsonObject.put("latitude", latitude);
-							jsonObject.put("event", disaster_event);
+							jsonObject.put("event_name", disaster_event);
 							jsonObject.put("longitude",longitude);
 							jsonObject.put("user_id",user_id);
 							impact_Object.put(impact_ids.get(i),jsonObject);

@@ -13,8 +13,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -40,6 +44,7 @@ public class RegisterActivity extends Activity {
 	private int mDay;
 	static final int DATE_DIALOG_ID = 0;
 	private DatePickerDialog.OnDateSetListener mDateSetListener;
+	protected ProgressDialog mProgressDialog;
 	
 	@SuppressLint("NewApi")
 	@Override
@@ -132,14 +137,65 @@ public class RegisterActivity extends Activity {
 					e.printStackTrace();
 				}
 				data=obj2.toString();
-				postData();				
+				if(haveNetworkConnection())
+				{
+					try
+					{
+	        		mProgressDialog=new ProgressDialog(RegisterActivity.this);
+	        		mProgressDialog.setMessage(" Registering User \n Please Wait");
+	        		mProgressDialog.setProgressStyle(mProgressDialog.STYLE_SPINNER);
+	        		mProgressDialog.show();
+	                RegisterActivity.this.runOnUiThread(new Runnable() {
+						public void run() 
+						{
+        	                try 
+        	                {
+			                	postData();
+            	                mProgressDialog.dismiss();
+        	                }
+        	                catch (Exception e) 
+        	                {
+        	                	Log.e("exception", e.toString());
+        	                }
+							
+						}
+					});
+					}
+					catch(Exception e)
+					{
+						toaster("Registration failed");
+	                	Log.e("exception", e.toString());
+					}
+				}
+				else
+				{
+					toaster("No Internet Connection");
+				}
 
 			}
 			}
 		});
-		
 
 	}
+
+	
+	  public boolean haveNetworkConnection() 
+	  {
+		    boolean haveConnectedWifi = false;
+		    boolean haveConnectedMobile = false;
+		    ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+		    NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+		    for (NetworkInfo ni : netInfo) {
+		        if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+		            if (ni.isConnected())
+		                haveConnectedWifi = true;
+		        if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+		            if (ni.isConnected())
+		                haveConnectedMobile = true;
+		    }
+		    return haveConnectedWifi || haveConnectedMobile;
+		}
+
 	protected void postData() 
 	{
 		StringReceiver connect=new StringReceiver(this);

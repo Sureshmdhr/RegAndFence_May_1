@@ -164,7 +164,7 @@ public class Reporting_pg1 extends Activity implements LocationListener
 					try 
 					{
 							incident.put("item_name", disaster_incident);
-							incident.put("event", disaster_event);
+							incident.put("event_name", disaster_event);
 							incident.put("address", "");
 							incident.put("latitude", usermarker.getLatLong().latitude);
 							incident.put("longitude",usermarker.getLatLong().longitude);
@@ -240,7 +240,7 @@ public class Reporting_pg1 extends Activity implements LocationListener
 											incident.put("class_name",  radioGenderButton.getText());
 											incident.put("address", "");
 											incident.put("latitude", usermarker.getLatLong().latitude);
-											incident.put("event", disaster_event);
+											incident.put("event_name", disaster_event);
 											incident.put("longitude",usermarker.getLatLong().longitude);
 											incident.put("timestamp_occurance",new FileCache(Reporting_pg1.this).getDate());
 											incident.put("description", "no description");
@@ -287,7 +287,7 @@ public class Reporting_pg1 extends Activity implements LocationListener
 			public void onClick(DialogInterface dialog, int which)
 			{
 				Intent intent=new Intent(getApplicationContext(),Reporting_pg2.class);
-				intent.putExtra("event", disaster_event);
+				intent.putExtra("event_name", disaster_event);
 				intent.putExtra("incident", disaster_incident);
 				Log.i("dis_sele", reporting.toString());
 				try 
@@ -453,9 +453,15 @@ public class Reporting_pg1 extends Activity implements LocationListener
 	private void resizeCapturedImage() 
 	{
 		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inSampleSize = 1;
+		options.inJustDecodeBounds = true;
 		Bitmap bitmap = BitmapFactory.decodeFile(fileUri.getPath(),options);
-		bitmap=getResizedBitmap(bitmap);
+		int imageHeight = options.outHeight;
+		int imageWidth = options.outWidth;
+		String imageType = options.outMimeType;
+		options.inSampleSize = calculateInSampleSize(options, 1024,768);
+		options.inJustDecodeBounds = false;
+	    bitmap=BitmapFactory.decodeFile(fileUri.getPath(),options);
+	    //bitmap=getResizedBitmap(bitmap,imageHeight,imageWidth);
 		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 		bitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
 		File f = new File(fileUri.getPath());
@@ -475,19 +481,47 @@ public class Reporting_pg1 extends Activity implements LocationListener
 			e.printStackTrace();
 		}
 	}
-			
-	public Bitmap getResizedBitmap(Bitmap bm)
+	
+	public static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+    // Raw height and width of image
+    final int height = options.outHeight;
+    final int width = options.outWidth;
+    int inSampleSize = 1;
+
+    if (height > reqHeight || width > reqWidth) {
+
+        final int halfHeight = height / 2;
+        final int halfWidth = width / 2;
+
+        // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+        // height and width larger than the requested height and width.
+        while ((halfHeight / inSampleSize) > reqHeight
+                && (halfWidth / inSampleSize) > reqWidth) {
+            inSampleSize *= 2;
+        }
+    }
+
+    return inSampleSize;
+}
+
+	public Bitmap getResizedBitmap(Bitmap bm, int imageHeight, int imageWidth)
 	{
-		int width = bm.getWidth();
-		int height = bm.getHeight();
-		int newWidth=1000;
-		int newHeight=1000*height/width;
-		float scaleWidth = ((float) newWidth) / width;
-		float scaleHeight = ((float) newHeight) / height;
-		Matrix matrix = new Matrix();
-		matrix.postScale(scaleWidth, scaleHeight);
-		Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
-		return resizedBitmap;
+		int width = imageWidth;
+		int height = imageHeight;
+		if(width>1000)
+		{
+			int newWidth=1000;
+			int newHeight=1000*height/width;
+			float scaleWidth = ((float) newWidth) / width;
+			float scaleHeight = ((float) newHeight) / height;
+			Matrix matrix = new Matrix();
+			matrix.postScale(scaleWidth, scaleHeight);
+			Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
+			return resizedBitmap;
+		}
+		else
+			return bm;
 	}
 		
 	private void geoTag(String absolutePath, double latitude, double longitude) 

@@ -44,9 +44,19 @@ public class NavDrawerListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
-            LayoutInflater mInflater = (LayoutInflater)
+           if(position==0)
+           {
+			LayoutInflater mInflater = (LayoutInflater)
                     context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.drawer_list_item, null);
+           }
+           else
+           {
+   			LayoutInflater mInflater = (LayoutInflater)
+                    context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            convertView = mInflater.inflate(R.layout.drawer_list_item_header, null);
+      	   
+           }
         }
          
         ImageView imgIcon = (ImageView) convertView.findViewById(R.id.icon);
@@ -55,10 +65,10 @@ public class NavDrawerListAdapter extends BaseAdapter {
         
         if(position==0){
         	imgIcon.setImageResource(navDrawerItems.get(position).getIcon());
-        	imgIcon.getLayoutParams().height=256;
-        	imgIcon.getLayoutParams().width=256;
+        	imgIcon.getLayoutParams().height=124;
+        	imgIcon.getLayoutParams().width=124;
         	txtTitle.setText(navDrawerItems.get(position).getTitle());
-        	txtTitle.setGravity(Gravity.CENTER_HORIZONTAL);
+			txtCount.setVisibility(View.GONE);
         	//txtTitle.setGravity(50);
         	//RelativeLayout relativeLayout= (RelativeLayout) convertView.findViewById(R.id.drawer_id);   
         }
