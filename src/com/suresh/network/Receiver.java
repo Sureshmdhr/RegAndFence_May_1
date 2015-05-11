@@ -58,7 +58,7 @@ public class Receiver extends AsyncTask<Void, Void, String>
 		catch (Exception localException)
 		{
 			Log.i("server", localException.toString());
-			String server_error = "Server Under Maintainance.Please TryAgain Later";
+			String server_error = "Connection Error.Please TryAgain Later";
 			String str3 = null;
 			try {
 				str3 = new JSONArray().put(new JSONObject().put("status", "server_fail").put("message", server_error)).toString();
@@ -102,14 +102,13 @@ public class Receiver extends AsyncTask<Void, Void, String>
 		super.onPreExecute();
 		if(mContext!=null)
 		{
-			pDialog = new ProgressDialog(mContext,
-	                ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
+			pDialog = new ProgressDialog(mContext);
 	        pDialog.setTitle("Please wait");
 	        pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 	        pDialog.setMessage("Loading data...");
 	        pDialog.setIndeterminate(true);
 	        pDialog.setCancelable(false);
-	        pDialog.setInverseBackgroundForced(true);
+	     //   pDialog.setInverseBackgroundForced(true);
 	        pDialog.show();
 		}
 	}

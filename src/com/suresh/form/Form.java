@@ -109,32 +109,7 @@ public class Form extends Activity {
 							}
 							if(haveNetworkConnection())
 							{
-								try
-								{
-				        		mProgressDialog=new ProgressDialog(Form.this);
-				        		mProgressDialog.setMessage(" Logging in \n Please Wait");
-				        		mProgressDialog.setProgressStyle(mProgressDialog.STYLE_SPINNER);
-				        		mProgressDialog.show();
-            	                Form.this.runOnUiThread(new Runnable() {
-									public void run() 
-									{
-	                	                try 
-	                	                {
-	    				                	postData(data.toString());
-		                	                mProgressDialog.dismiss();
-	                	                }
-	                	                catch (Exception e) 
-	                	                {
-	                	                	Log.e("exception", e.toString());
-	                	                }
-										
-									}
-								});
-								}
-								catch(Exception e)
-								{
-            	                	Log.e("exception", e.toString());
-								}
+								postData(data.toString());
 							}
 							else
 							{
@@ -168,86 +143,114 @@ public class Form extends Activity {
         }
 	}
 	
-	public void postData(String data) {
-		StringReceiver connect=new StringReceiver(Form.this);
-	//	connect.setHost("http://116.90.239.21");
-		connect.setPath("/girc/dmis/api/user/users/login");
-		new JSONObject();
-		connect.setString(data);
-		AsyncTask<Void, Void, String> output = connect.execute(new Void[0]);
-		try {
-			String result=output.get();
-            Log.i("errorlogin", result);
-            String check_message = null;
-            try
-            {
-				JSONObject check=new JSONObject(result);
-				check_message=check.getString("status");
-			} 
-            catch (JSONException e)
-            {
-				e.printStackTrace();
+	public void postData(final String data) {
+		try
+		{
+		mProgressDialog=new ProgressDialog(Form.this);
+		mProgressDialog.setMessage(" Logging in \n Please Wait");
+		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		mProgressDialog.setCancelable(true);
+		mProgressDialog.show();
+        Form.this.runOnUiThread(new Runnable() {
+			public void run() 
+			{
+                try 
+                {
+            		StringReceiver connect=new StringReceiver(Form.this);
+            		//	connect.setHost("http://116.90.239.21");
+            			connect.setPath("/girc/dmis/api/user/users/login");
+            			new JSONObject();
+            			connect.setString(data);
+            			AsyncTask<Void, Void, String> output = connect.execute(new Void[0]);
+    	                Log.i("pd", "sh");
+            			mProgressDialog.dismiss();
+    	                try {
+            				String result=output.get();
+            	            Log.i("errorlogin", result);
+            	            String check_message = null;
+            	            try
+            	            {
+            					JSONObject check=new JSONObject(result);
+            					check_message=check.getString("status");
+            				} 
+            	            catch (JSONException e)
+            	            {
+            					e.printStackTrace();
+            				}
+            	            if(check_message.equals("success"))
+            	            {
+            	            	String message = null;
+            					try 
+            					{
+            						Log.i("log_in", result);
+            						JSONObject check=new JSONObject(result);
+            						message=check.getString("msg");
+            						String user = check.getString("user");
+            						JSONObject details=new JSONObject(user);
+            						user_id=details.getInt("id");
+            						username=details.getString("username");
+            						Log.i("id", String.valueOf(user_id));
+            					}
+            					catch (JSONException e) 
+            					{
+            						e.printStackTrace();
+            					}
+            					showcreateddialog(message);
+            	            }
+            	            else if(check_message.equals("server_fail"))
+            	            {
+            					try {
+            						JSONObject rs = new JSONObject(result);
+            						String error_message = rs.getString("message");
+            						showerrordialog(error_message);
+            					} catch (JSONException e) {
+            						// TODO Auto-generated catch block
+            						e.printStackTrace();
+            					}
+            	            }
+            	            else
+            	            {
+            	            	try 
+            	            	{
+            	    				JSONObject rs=new JSONObject(result);
+            	    				String error_message = rs.getString("errors");
+            	    				JSONArray error_msg1=new JSONArray(error_message);
+            	    				String err_msg2=error_msg1.getJSONObject(0).toString();
+            	    				showerrordialog(err_msg2);
+            	            	}
+            	            catch (JSONException e1) 
+            	            {
+            	            	Log.i("error", e1.toString());
+            					e1.printStackTrace();
+            	            }
+            	            }
+            			}
+            			catch (InterruptedException e) 
+            			{
+            				e.printStackTrace();
+            			} catch (ExecutionException e) 
+            			{
+            				e.printStackTrace();
+            			}
+                }
+                catch (Exception e) 
+                {
+                	Log.e("exception", e.toString());
+                }
+				
 			}
-            if(check_message.equals("success"))
-            {
-            	String message = null;
-				try 
-				{
-					Log.i("log_in", result);
-					JSONObject check=new JSONObject(result);
-					message=check.getString("msg");
-					String user = check.getString("user");
-					JSONObject details=new JSONObject(user);
-					user_id=details.getInt("id");
-					username=details.getString("username");
-					Log.i("id", String.valueOf(user_id));
-				}
-				catch (JSONException e) 
-				{
-					e.printStackTrace();
-				}
-				showcreateddialog(message);
-            }
-            else if(check_message.equals("server_fail"))
-            {
-				try {
-					JSONObject rs = new JSONObject(result);
-					String error_message = rs.getString("message");
-					showerrordialog(error_message);
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-            }
-            else
-            {
-            	try 
-            	{
-    				JSONObject rs=new JSONObject(result);
-    				String error_message = rs.getString("errors");
-    				JSONArray error_msg1=new JSONArray(error_message);
-    				String err_msg2=error_msg1.getJSONObject(0).toString();
-    				showerrordialog(err_msg2);
-            	}
-            catch (JSONException e1) 
-            {
-            	Log.i("error", e1.toString());
-				e1.printStackTrace();
-            }
-            }
+		});
 		}
-		catch (InterruptedException e) 
+		catch(Exception e)
 		{
-			e.printStackTrace();
-		} catch (ExecutionException e) 
-		{
-			e.printStackTrace();
+        	Log.e("exception", e.toString());
 		}
+
 	}
 
 	public void postnameonLocation(String uname) {
 		Receiver connect=new Receiver(this);
-		connect.setPath("postnameinLocation.php");
+		connect.setPath("/postnameinLocation.php");
 		connect.addNameValuePairs("value1",uname);
 		AsyncTask<Void, Void, String> output = connect.execute(new Void[0]);
 		try {

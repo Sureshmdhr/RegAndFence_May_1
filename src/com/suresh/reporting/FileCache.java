@@ -34,6 +34,7 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.media.ExifInterface;
@@ -232,9 +233,15 @@ public class FileCache extends UserMenuActivity {
 			Toast.makeText(mContext, s, Toast.LENGTH_SHORT).show();
 		}
 	   public boolean upload_status;
+	private ProgressDialog mProgressDialog;
 	   
 	   public boolean upload(File file)
 	   {
+		   mProgressDialog=new ProgressDialog(mContext);
+		   mProgressDialog.setMessage("Uploading File");
+		   mProgressDialog.setProgressStyle(mProgressDialog.STYLE_SPINNER);
+		   mProgressDialog.setCancelable(false);
+		   mProgressDialog.show();
 		   String photo_name="";
 		   try
 		   {
@@ -283,6 +290,7 @@ public class FileCache extends UserMenuActivity {
 		   {
 			   e.printStackTrace();
 		   }
+		   mProgressDialog.dismiss();
 		   return upload_status;
 	   }
 
