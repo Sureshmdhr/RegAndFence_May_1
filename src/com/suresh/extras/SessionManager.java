@@ -2,14 +2,16 @@ package com.suresh.extras;
 
 import java.util.HashMap;
 
-import com.suresh.form.Form;
-import com.suresh.menus.BaseActivity;
-
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+
+import com.facebook.login.LoginManager;
+import com.suresh.form.Form;
+import com.suresh.menus.BaseActivity;
 
 public class SessionManager {
 	// Shared Preferences
@@ -197,6 +199,15 @@ public class SessionManager {
 		editor.commit();
 		editor.putString(KEY_Time, "Stop");
 		editor.commit();
+		//if(LoginManager.getInstance().)
+		try
+		{
+			LoginManager.getInstance().logOut();
+		}
+		catch(Exception e)
+		{
+			
+		}
 
 		// After logout redirect user to Loing Activity
 		Intent i = new Intent(_context, Form.class);

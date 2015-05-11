@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -43,6 +45,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.location.Location;
 import android.location.LocationListener;
 import android.net.ConnectivityManager;
@@ -52,6 +57,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.Settings;
+import android.util.Base64;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -150,6 +156,26 @@ public class geofences extends BaseActivity implements OnItemLongClickListener,L
 		setTitle(navMenuTitles[position]);
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
+
+		
+		try 
+		{
+			PackageInfo info = getPackageManager().getPackageInfo("com.suresh.form", PackageManager.GET_SIGNATURES);
+			for (Signature signature : info.signatures) 
+			{ 
+				MessageDigest md = MessageDigest.getInstance("SHA");
+				md.update(signature.toByteArray());
+				Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+				}
+			}
+		catch (PackageManager.NameNotFoundException e) 
+		{
+			Log.i("catch", e.toString());
+		} catch (NoSuchAlgorithmException e)
+		{
+			Log.i("catch", e.toString());
+			
+		}
 
 	    SessionManager session = new SessionManager(getApplicationContext());
 	    HashMap<String, String> user = session.getUserDetails();

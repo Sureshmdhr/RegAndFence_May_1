@@ -49,6 +49,7 @@
     <string name="enable_gps_header">No GPS connectivity</string>
     <string name="internet_connectivity_message">You need to have mobile data or Wifi connection to run this app</string>
     <string name="internet_connectivity_header">No Internet Connectivity</string>
+    <string name="app_id">1066814936666581</string>
     
     <string-array name="paths">
         <item>Earthquake</item>

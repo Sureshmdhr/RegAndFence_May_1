@@ -1,19 +1,20 @@
 package com.suresh.menus;
 
 
+import java.io.File;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
-import android.view.Gravity;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.suresh.form.R;
 
 public class NavDrawerListAdapter extends BaseAdapter {
@@ -64,10 +65,14 @@ public class NavDrawerListAdapter extends BaseAdapter {
         TextView txtCount = (TextView) convertView.findViewById(R.id.counter);
         
         if(position==0){
-        	imgIcon.setImageResource(navDrawerItems.get(position).getIcon());
-        	imgIcon.getLayoutParams().height=124;
-        	imgIcon.getLayoutParams().width=124;
-        	txtTitle.setText(navDrawerItems.get(position).getTitle());
+       	 
+       	File file = new File(Environment.getExternalStorageDirectory().getPath() +"/girc/.Cache/fbpropic.jpg");
+           Picasso.with(context).load(file).into(imgIcon);
+       	//imgIcon.setImageResource(navDrawerItems.get(position).getIcon());
+       	
+       	imgIcon.getLayoutParams().height=250;
+       	imgIcon.getLayoutParams().width=250;
+       	txtTitle.setText(navDrawerItems.get(position).getTitle());
 			txtCount.setVisibility(View.GONE);
         	//txtTitle.setGravity(50);
         	//RelativeLayout relativeLayout= (RelativeLayout) convertView.findViewById(R.id.drawer_id);   

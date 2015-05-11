@@ -87,8 +87,16 @@ public class Receiver extends AsyncTask<Void, Void, String>
 
 	protected void onPostExecute(String paramString)
 	{
+		try
+		{
         if(mContext!=null)
         	pDialog.dismiss();
+		}
+		catch(Exception e)
+		{
+			Log.e("receiver_crash", e.toString());
+		}
+		
 		super.onPostExecute(paramString);
 	}	
 
@@ -100,7 +108,9 @@ public class Receiver extends AsyncTask<Void, Void, String>
 	protected void onPreExecute()
 	{
 		super.onPreExecute();
-		if(mContext!=null)
+		try
+		{
+			if(mContext!=null)
 		{
 			pDialog = new ProgressDialog(mContext);
 	        pDialog.setTitle("Please wait");
@@ -108,8 +118,13 @@ public class Receiver extends AsyncTask<Void, Void, String>
 	        pDialog.setMessage("Loading data...");
 	        pDialog.setIndeterminate(true);
 	        pDialog.setCancelable(false);
-	     //   pDialog.setInverseBackgroundForced(true);
+	        pDialog.setInverseBackgroundForced(true);
 	        pDialog.show();
+		}
+		}
+		catch(Exception e)
+		{
+			Log.e("receiver_crash", e.toString());
 		}
 	}
 
