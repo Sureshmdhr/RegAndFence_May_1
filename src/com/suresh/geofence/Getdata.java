@@ -53,11 +53,14 @@ public class Getdata {
 	    ArrayList<String> name = new ArrayList<String>();
 	    try 
 	    {
+	    	if(result!=null)
+	    	{
 	    	JSONArray myjArray = new JSONArray(result);
 	    	JSONObject myjson=null;
 	    	for(int i=0; i<myjArray.length();i++){
 	    		myjson = (JSONObject)myjArray.getJSONObject(i);
 	    		name.add(myjson.getString(column));
+	    	}
 	    	}
 	    } 
 	    catch (Exception e) 

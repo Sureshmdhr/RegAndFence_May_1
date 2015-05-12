@@ -286,7 +286,8 @@ public class BaseActivity extends Activity {
 
 			break;
 		case 7:					//Log Out
-        	Toast.makeText(this, "Logging Out", Toast.LENGTH_SHORT).show();
+            finish();
+            Toast.makeText(this, "Logging Out", Toast.LENGTH_SHORT).show();
         	SessionManager session = new SessionManager(getApplicationContext());
 			session.logoutUser();
 			break;

@@ -6,7 +6,7 @@
     android:background="@drawable/list_selector"
     android:orientation="vertical" >
 
-    <ImageView
+    <com.suresh.extras.CircleImageView
         android:id="@+id/icon"
         android:layout_width="25dp"
         android:layout_height="wrap_content"
