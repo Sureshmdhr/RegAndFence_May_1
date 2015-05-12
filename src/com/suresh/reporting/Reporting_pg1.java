@@ -582,15 +582,8 @@ public class Reporting_pg1 extends Activity implements LocationListener
         ((TileRendererLayer) this.tileRendererLayer).setXmlRenderTheme(InternalRenderTheme.OSMARENDER);
         my_map.getLayerManager().getLayers().add(tileRendererLayer);
         gps = new GPSTracker(Reporting_pg1.this);
-        if(gps.canGetLocation())
-        {
  			my_map.getModel().mapViewPosition.setCenter(new LatLong(gps.getLatitude(), gps.getLongitude()));
         	createUserMarker(gps.getLatitude(), gps.getLongitude());
-        }
-        else
-        {
-        	gps.showSettingsAlert();
-        }
 	}
 	
 		private void createUserMarker(double paramDouble1, double paramDouble2)
@@ -644,15 +637,17 @@ public class Reporting_pg1 extends Activity implements LocationListener
 	@Override
 	public void onProviderDisabled(String provider) 
 	{
+		//showSettingsAlert();
 		Toast.makeText(getApplicationContext(),
-            "Provider disabled: " + provider, Toast.LENGTH_SHORT)
+            "Provider IS disabled: " + provider, Toast.LENGTH_SHORT)
             .show();
 	}
 
     @Override
     public void onProviderEnabled(String provider) {
+    	
     	Toast.makeText(getApplicationContext(),
-            "Provider enabled: " + provider, Toast.LENGTH_SHORT)
+            "Provider IS enabled: " + provider, Toast.LENGTH_SHORT)
             .show();
 }
 
@@ -674,9 +669,9 @@ public class Reporting_pg1 extends Activity implements LocationListener
         // On pressing Settings button
         alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog,int which) {
+                dialog.dismiss();
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(intent);
-                dialog.dismiss();
             }
         });
   

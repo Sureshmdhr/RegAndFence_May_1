@@ -138,7 +138,19 @@ public class Form extends FragmentActivity {
 												e.printStackTrace();
 											}
 											registerNewUserFromFacebook(obj2.toString());
-			                            	Log.v("LoginActivity", response.toString());
+
+											session.createLoginSession("user",FbLoginName, 1234);
+						                    session.createTimesSession(1);
+											if(!session.checksetting()){
+												Boolean[] choices={true,true,true,true,true};
+												session.create_catagory_session(choices);
+											}
+											postnameonLocation(uname);
+											Log.i("login", FbLoginName);
+						                    Intent intent=new Intent(getApplicationContext(),BaseActivity.class);
+						                    getActivity().startActivity(intent);
+								        	getActivity().finish();
+								        	Log.v("LoginActivity", response.toString());
 			                            	Log.v("email", object.getString("email"));
 										} catch (JSONException e) {
 											// TODO Auto-generated catch block
@@ -152,7 +164,7 @@ public class Form extends FragmentActivity {
 										try 
 										{
 											StringReceiver connect=new StringReceiver();
-											connect.setPath("/girc/dmis/api/user/");
+											connect.setPath("girc/dmis/api/user/users/register");
 											connect.setString(data);
 											AsyncTask<Void, Void, String> output = connect.execute(new Void[0]);
 											Log.i("FbRegisterOutput", output.get());
@@ -177,17 +189,6 @@ public class Form extends FragmentActivity {
 		                	FbLoginName= profile.getName();
 		                    SaveImage(String.valueOf(profile.getProfilePictureUri(250, 250)));
 		                    
-		                    session.createLoginSession("user",FbLoginName, 1234);
-		                    session.createTimesSession(1);
-							if(!session.checksetting()){
-								Boolean[] choices={true,true,true,true,true};
-								session.create_catagory_session(choices);
-							}
-							postnameonLocation(uname);
-							Log.i("login", FbLoginName);
-		                    Intent intent=new Intent(getApplicationContext(),BaseActivity.class);
-		                    getActivity().startActivity(intent);
-				        	getActivity().finish();
 //		                    
 //		                    tv.setText(profile.getName());
 
