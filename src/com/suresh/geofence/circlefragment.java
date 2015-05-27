@@ -52,7 +52,6 @@ public class circlefragment  extends Activity{
 		EditText lgt,lat,rad,msg,name;
 		Button btngeo,preview;
 		protected String s;
-		String port=Form.fence;
 		//IMapController mapcontroller;
 		Spinner spinner;
 		ArrayList<Point> mPoints=new  ArrayList<Point>();

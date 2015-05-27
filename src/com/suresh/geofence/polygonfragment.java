@@ -52,7 +52,6 @@ public class polygonfragment extends Activity
 	EditText rad,msg,name;
 	Button btngeo,clear;
 	protected String s;
-	String port=Form.fence;
 	
 	Spinner spinner;
 	ArrayList<Point> mPoints=new  ArrayList<Point>();

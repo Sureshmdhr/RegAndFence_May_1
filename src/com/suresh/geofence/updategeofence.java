@@ -47,7 +47,6 @@ public class updategeofence extends TabActivity
     String overlay_type;
 	TabHost tabHost;
     //mymapview mv;
-    String port=Form.fence;
 	private String uname;
 	private Circle myCircle;
 	private TappableMarker usermarker;

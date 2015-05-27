@@ -52,7 +52,6 @@ static EditText e1;
 TextView t1;
 Button btngeo,clear;
 protected String s;
-String port=Form.fence;
 String fencename=updategeofence.fencename;
 int catagory;
 public static Spinner spinner;

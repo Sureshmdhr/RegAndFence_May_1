@@ -23,6 +23,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.suresh.form.R;
+import com.suresh.geofence.geofences;
+import com.suresh.geofence.userpage;
 import com.suresh.menus.BaseActivity;
 
 @SuppressLint("NewApi")
@@ -186,6 +188,16 @@ public class Reporting_pg4 extends BaseActivity
 		return file_name;
 	}
 
+	@Override
+	public void onBackPressed() 
+	{
+		super.onBackPressed();
+		finish();
+		Intent intent=new Intent(Reporting_pg4.this,geofences.class);
+		startActivity(intent);
+	}
+
+	
 	  public boolean haveNetworkConnection() 
 	  {
 		    boolean haveConnectedWifi = false;

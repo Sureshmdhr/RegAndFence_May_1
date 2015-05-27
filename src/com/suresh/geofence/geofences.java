@@ -157,26 +157,6 @@ public class geofences extends BaseActivity implements OnItemLongClickListener,L
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
 
-		
-		try 
-		{
-			PackageInfo info = getPackageManager().getPackageInfo("com.suresh.form", PackageManager.GET_SIGNATURES);
-			for (Signature signature : info.signatures) 
-			{ 
-				MessageDigest md = MessageDigest.getInstance("SHA");
-				md.update(signature.toByteArray());
-				Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-				}
-			}
-		catch (PackageManager.NameNotFoundException e) 
-		{
-			Log.i("catch", e.toString());
-		} catch (NoSuchAlgorithmException e)
-		{
-			Log.i("catch", e.toString());
-			
-		}
-
 	    SessionManager session = new SessionManager(getApplicationContext());
 	    HashMap<String, String> user = session.getUserDetails();
 	    username = user.get(SessionManager.KEY_EMAIL);

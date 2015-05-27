@@ -274,9 +274,14 @@ public class userpage extends BaseActivity implements AdapterView.OnItemClickLis
 	}
 	
 
-
-
-
+	@Override
+	public void onBackPressed() 
+	{
+		super.onBackPressed();
+		finish();
+		Intent intent=new Intent(userpage.this,geofences.class);
+		startActivity(intent);
+	}
 
 	protected void ChangeStatusPost(String string, String status2) {
 		Receiver connect=new Receiver(userpage.this);

@@ -29,9 +29,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/new_button"
-        android:text="+"
+        android:text="ADD GEOFENCE"
         android:textColor="@color/whiteflat"
-        android:textSize="50dp" />
+        android:textSize="20sp" />
 
     <ListView
         android:id="@+id/lvGeofence"

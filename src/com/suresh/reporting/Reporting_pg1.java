@@ -582,8 +582,15 @@ public class Reporting_pg1 extends Activity implements LocationListener
         ((TileRendererLayer) this.tileRendererLayer).setXmlRenderTheme(InternalRenderTheme.OSMARENDER);
         my_map.getLayerManager().getLayers().add(tileRendererLayer);
         gps = new GPSTracker(Reporting_pg1.this);
- 			my_map.getModel().mapViewPosition.setCenter(new LatLong(gps.getLatitude(), gps.getLongitude()));
+        if(gps.canGetLocation())
+        {
+        	my_map.getModel().mapViewPosition.setCenter(new LatLong(gps.getLatitude(), gps.getLongitude()));
         	createUserMarker(gps.getLatitude(), gps.getLongitude());
+        }
+        else
+        {
+        	showSettingsAlert();
+        }
 	}
 	
 		private void createUserMarker(double paramDouble1, double paramDouble2)
@@ -637,19 +644,14 @@ public class Reporting_pg1 extends Activity implements LocationListener
 	@Override
 	public void onProviderDisabled(String provider) 
 	{
-		//showSettingsAlert();
-		Toast.makeText(getApplicationContext(),
-            "Provider IS disabled: " + provider, Toast.LENGTH_SHORT)
-            .show();
+		showSettingsAlert();
 	}
 
     @Override
-    public void onProviderEnabled(String provider) {
+    public void onProviderEnabled(String provider) 
+    {
     	
-    	Toast.makeText(getApplicationContext(),
-            "Provider IS enabled: " + provider, Toast.LENGTH_SHORT)
-            .show();
-}
+    }
 
 
 	@Override

@@ -191,8 +191,26 @@ public class FileCache extends UserMenuActivity {
 	   {
 	       File[] files=cacheDir.listFiles();
 	       for(File f:files)
+	       {
 	           if(f.getName().equals(file_name))
-	        	   f.delete();
+	           {
+	        	   String photo_name="";
+				   try
+				   {
+					   JSONObject json=new JSONObject(getStringFromFile(f.getAbsolutePath()));
+					   JSONObject photo=json.getJSONObject("Photo");
+					   if(photo.getBoolean("photo_taken"))
+					   {
+						   deletefile(photo_name);
+					   }
+					   f.delete();
+				   }
+				   catch(JSONException e)
+				   {
+					   e.printStackTrace();
+				   }
+	           }
+	       }
 	   }
 
 	   public void storeFile(String json) throws FileNotFoundException, IOException
@@ -264,7 +282,6 @@ public class FileCache extends UserMenuActivity {
 						   Log.i("post", json.toString());
 						   deletefile(photo_name);
 					   }
-
 				   }
 				   catch (Exception e) 
 				   {
@@ -275,13 +292,13 @@ public class FileCache extends UserMenuActivity {
 			   }
 			   else
 			   {
-				   Log.i("Photo", "no");
+				   Log.i("Photo", photo_name);
 				   json.remove("Photo");
 				   upload_status=postData(json.toString());
-				   if(upload_status&&!photo_name.equals(""))
+				   if(upload_status)
 				   {
 					   Log.i("post", json.toString());
-					   deletefile(photo_name);
+					   //deletefile(photo_name);
 				   }
 			   }
 

@@ -69,7 +69,7 @@ public class Form extends FragmentActivity {
 	String username;
 	SessionManager session;
 	//static String fence="http://192.168.144.1/polygon";
-	public static String fence="http://116.90.239.21/polygon1";
+	//public static String fence="http://116.90.239.21/polygon1";
 	
 		@Override
 		protected void onCreate(Bundle savedInstanceState) {
@@ -300,25 +300,6 @@ public class Form extends FragmentActivity {
 			        Log.i("check",String.valueOf(session.checkLogin()));
 			        if(!session.checkLogin())
 			        {
-			        	if(!haveNetworkConnection())
-			        	{
-							AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-							builder.setMessage(R.string.internet_connectivity_message)
-							.setTitle(R.string.internet_connectivity_header);
-							builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-
-								@Override
-								public void onClick(DialogInterface dialog, int which) {
-									dialog.cancel();
-									finish();
-								}
-							});
-							AlertDialog dialog = builder.create();
-							dialog.show();	
-
-			        	}
-			        	else
-			        	{
 				        	Button login=(Button)findViewById(R.id.btnReport);
 							login_username=(EditText)findViewById(R.id.log_username);
 							login_password=(EditText)findViewById(R.id.rep_place);
@@ -349,7 +330,27 @@ public class Form extends FragmentActivity {
 										{
 											e.printStackTrace();
 										}
-										postData(data.toString());
+										if(haveNetworkConnection())
+										{
+											postData(data.toString());
+										}
+										else
+										{
+											AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+											builder.setMessage(R.string.internet_connectivity_message)
+											.setTitle(R.string.internet_connectivity_header);
+											builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+												@Override
+												public void onClick(DialogInterface dialog, int which) {
+													dialog.cancel();
+													//finish();
+												}
+											});
+											AlertDialog dialog = builder.create();
+											dialog.show();	
+
+										}
 									}
 									else 
 									{
@@ -357,7 +358,6 @@ public class Form extends FragmentActivity {
 									}
 					        	}
 					        });
-			        	}
 			        	TextView registerScreen = (TextView) findViewById(R.id.link_to_register);
 			        	
 				        registerScreen.setOnClickListener(new View.OnClickListener() 

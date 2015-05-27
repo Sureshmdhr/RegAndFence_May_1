@@ -58,7 +58,6 @@ public class circleupdatefragment  extends AndroidMenusActivity{
 		public static Spinner spinner;
 		Button btngeo,preview;
 		protected String s;
-		String port=Form.fence;
 		String fencename=updategeofence.fencename;
 		int catagory;
 	    String q="";

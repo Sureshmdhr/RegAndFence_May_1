@@ -49,9 +49,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:background="@color/background"
-            android:text="+"
+            android:text="ADD REPORT"
             android:textColor="@color/whiteflat"
-            android:textSize="40sp" />
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/delete_all"
